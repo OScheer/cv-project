@@ -29,7 +29,7 @@ sections:
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg> Leipzig, Germany
         </div>
         <div class="flex gap-4">
-        <a href="mailto:oliver.scheer@example.com" class="p-3 rounded-full bg-white/50 hover:bg-white/80 dark:bg-slate-800/50 dark:hover:bg-slate-700 transition shadow-sm backdrop-blur-sm" aria-label="E-Mail">
+        <a href="mailto:info@scheer-lab.de" class="p-3 rounded-full bg-white/50 hover:bg-white/80 dark:bg-slate-800/50 dark:hover:bg-slate-700 transition shadow-sm backdrop-blur-sm" aria-label="E-Mail">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"/></svg>
         </a>
         <a href="https://www.linkedin.com/in/thomas-oliver-scheer/" target="_blank" class="p-3 rounded-full bg-white/50 hover:bg-white/80 dark:bg-slate-800/50 dark:hover:bg-slate-700 transition shadow-sm backdrop-blur-sm" aria-label="LinkedIn">
