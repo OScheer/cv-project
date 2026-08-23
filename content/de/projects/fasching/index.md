@@ -1,5 +1,5 @@
 ---
-title: Videoproduktion & Veranstaltungsorganisation
+title: "Bio11erRat Leipzig – Videoproduktion & Vereinsarbeit"
 translationKey: "project-fasching"
 date: 2016-11-01
 links:
@@ -9,19 +9,18 @@ tags:
   - Ehrenamt
   - Videoproduktion
   - Eventmanagement
-  - Darstellende Kunst
   - Studierendenverein
 draft: false
 
 ---
 
-Aktives Mitglied des Bio11erRat Leipzig e.V. seit 2016. Verantwortlich für die jährlichen Kurzfilmproduktionen sowie Bühnenauftritte bei den traditionellen „Biofasching"-Veranstaltungen.
+Kreativer Ausgleich: Drehbuch, Kamera und Videoschnitt für die jährlichen Bühnen-Kurzfilme des Biofaschings an der Universität Leipzig.
 
-Seit November 2016 bin ich aktives, engagiertes Mitglied des **Bio11erRat Leipzig e.V.**, dem offiziellen studentischen Karnevalsverein der Fakultät für Biowissenschaften, Pharmazie und Psychologie der Universität Leipzig. Der Verein ist bekannt für die jährliche Organisation des „Biofasching", einer großen Studentenveranstaltung mit aufwendigen Bühnenprogrammen, Tänzen und kreativen Darbietungen.
+Seit November 2016 bin ich aktives Mitglied im **Bio11erRat Leipzig e.V.**, dem studentischen Faschingsverein der Biowissenschaftlichen Fakultät der Uni Leipzig.
 
-Innerhalb des Vereins übernahm ich eine leitende kreative und technische Rolle:
-*   **Filmproduktion:** Hauptverantwortlich für Konzeption, Dreh und Schnitt der selbstproduzierten Kurzfilme, die jährlich ein zentrales Highlight des Bühnenprogramms sind.
-*   **Bühnenauftritte:** Neben der Kameraarbeit auch aktive Teilnahme als Schauspieler in verschiedenen komödiantischen und theatralischen Szenen.
-*   **Veranstaltungsorganisation:** Unterstützung bei Planung, Logistik und Durchführung von Großveranstaltungen und Partys.
+### Was ich mache:
+* **Kurzfilme & Schnitt:** Hauptverantwortlich für Ideenfindung, Dreh und Videoschnitt der humorvollen Kurzfilme, die jedes Jahr ein fester Programmteil der Bühnenshow sind.
+* **Bühne & Schauspiel:** Gelegentliche Sketche und Rollen im Bühnenprogramm.
+* **Organisation:** Unterstützung bei Technik, Aufbau und Veranstaltungslogistik.
 
-Dieses langjährige ehrenamtliche Engagement ergänzt meine technisch-analytische Berufstätigkeit perfekt mit hochkreativen, teamorientierten und unterhaltsamen Gemeinschaftsprojekten.
+Ein kreativer Ausgleich zur täglichen IT-Arbeit, bei dem Teamgeist, Timing und Spaß am gemeinsamen Gestalten im Vordergrund stehen.

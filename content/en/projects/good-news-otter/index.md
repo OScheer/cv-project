@@ -1,5 +1,5 @@
 ---
-title: "Good News Otter — AI-Powered Twitch Channel"
+title: "Good News Otter — Automated Positive News Stream on Twitch"
 translationKey: "project-good-news-otter"
 date: 2026-08-22
 links:
@@ -7,25 +7,22 @@ links:
     url: https://www.twitch.tv/goodnewsotter
     name: Twitch Channel
 tags:
-  - Artificial Intelligence
   - Streaming
   - Content Creation
-  - Community Engagement
   - Positive News
+  - Automation
 draft: false
 
 ---
 
-An ongoing, automated and AI-driven livestreaming channel dedicated to curating and broadcasting positive, inspiring news stories from around the globe.
+A 24/7 automated Twitch livestream dedicated to curating and sharing constructive, uplifting stories from science, conservation, and daily life.
 
-### About the Project
-**Good News Otter** merges state-of-the-art **Artificial Intelligence** with 24/7 digital broadcasting on Twitch. The AI pipeline continuously discovers, filters, and curates constructive journalism, scientific breakthroughs, environmental milestones, and uplifting human stories from global news feeds.
+### What is it?
+Mainstream media often leans heavily into breaking crises. **Good News Otter** provides an easygoing alternative: a continuous Twitch stream focused entirely on scientific breakthroughs, environmental progress, and uplifting human stories.
 
-In a digital landscape often filled with sensationalism and crisis reporting, this AI-powered channel provides a cozy, optimistic sanctuary designed to spread joy and positive knowledge.
+### How it works technically:
+* **News Curation & Synthesis:** Automated feeds gather and filter constructive global stories, preparing concise summaries for broadcast.
+* **Automated Streaming Setup:** Seamless audio/video generation with dynamic graphics and chill background sound.
+* **Live Chat Engagement:** Viewers can interact directly in the Twitch chat and explore topics interactively.
 
-### Technical Highlights & AI Integration
-* **AI Curation & Synthesis:** Automated news aggregation, semantic sentiment filtering, and text generation via modern LLM pipelines.
-* **Automated Broadcast Production:** Continuous video stream composition, dynamic overlays, and AI-driven narration workflows.
-* **Interactive Live Community:** Real-time Twitch chat engagement and automated, friendly viewer interactions.
-
-Tune in live on [Twitch: twitch.tv/goodnewsotter](https://www.twitch.tv/goodnewsotter) 🦦✨
+Tune in anytime: [twitch.tv/goodnewsotter](https://www.twitch.tv/goodnewsotter) 🦦✨

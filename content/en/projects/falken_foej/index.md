@@ -1,5 +1,5 @@
 ---
-title: Voluntary Ecological Year (FÖJ)
+title: "Voluntary Ecological Year (FÖJ)"
 translationKey: "project-foej"
 date: 2007-01-31
 links:
@@ -14,14 +14,13 @@ draft: false
 
 ---
 
-A one-year voluntary commitment dedicated to environmental education, wildlife care, and practical nature conservation at a non-profit forest and wildlife center in Potsdam.
+A full-time hands-on gap year dedicated to practical nature conservation, wildlife care, and environmental education at Falkenhof Potsdam.
 
-Between January 2006 and January 2007, I completed a Voluntary Ecological Year (FÖJ) at the **Wald-Jagd-Naturerlebnis e.V.** in Potsdam. The non-profit association, located in the protected landscape area "Springbruch", manages the *Waldhaus Großer Ravensberg* and an integrated falconry (*Falkenhof*). Its primary mission is to counter the growing alienation from nature by bringing the forest, its wildlife, and its flora closer to children, youth, and adults through hands-on forest pedagogy.
+Before starting my training and university studies, I completed a Voluntary Ecological Year (FÖJ) from 2006 to 2007 with **Wald-Jagd-Naturerlebnis e.V.** in Potsdam.
 
-During my time there, I was an active part of a small, dedicated team. My responsibilities were highly diverse and hands-on, encompassing:
+### Hands-on Experience:
+* **Animal Care & Conservation:** Daily feeding, handling, and care for birds of prey and rehabilitation animals.
+* **Forest Pedagogy:** Guiding student groups, holiday camps, and nature educational tours.
+* **Habitat Maintenance:** Groundskeeping, practical woodwork, and enclosure maintenance.
 
-*   **Animal Care & Wildlife Protection:** Supporting the care of birds of prey and other animals at the wildlife station and the Falkenhof.
-*   **Environmental Education:** Assisting with forest pedagogy programs, guided nature tours, and holiday camps aimed at teaching students and visitors about ecological interrelationships.
-*   **Operational Support:** Helping with the daily operations of the association, visitor support, and practical landscape maintenance.
-
-This immersive year not only deepened my understanding of ecology and nature conservation but also built a strong foundation in teamwork, responsibility, and communicating complex natural concepts to the public.
+A formative experience that grounded my lasting passion for biology, ecology, and scientific inquiry.

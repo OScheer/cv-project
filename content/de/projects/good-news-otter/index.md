@@ -1,5 +1,5 @@
 ---
-title: "Good News Otter – KI-gestützter Twitch-Kanal"
+title: "Good News Otter – Automatisierter Positiv-News-Kanal auf Twitch"
 translationKey: "project-good-news-otter"
 date: 2026-08-22
 links:
@@ -7,25 +7,22 @@ links:
     url: https://www.twitch.tv/goodnewsotter
     name: Twitch-Kanal
 tags:
-  - Künstliche Intelligenz
   - Streaming
   - Content Creation
-  - Community Engagement
-  - Positive Nachrichten
+  - Positives Wissen
+  - Automation
 draft: false
 
 ---
 
-Ein fortlaufendes, vollautomatisiertes und KI-gestütztes Livestreaming-Projekt, das weltweit nach inspirierenden und positiven Nachrichten sucht und diese interaktiv präsentiert.
+Ein eigenständiges Streaming-Projekt auf Twitch, das rund um die Uhr nach erfreulichen, konstruktiven und inspirierenden Nachrichten aus aller Welt sucht und diese live streamt.
 
-### Über das Projekt
-**Good News Otter** verbindet moderne Methoden der **Künstlichen Intelligenz** mit Livestreaming auf Twitch. Das System analysiert, filtert und kuratiert tagesaktuelle, weltweite Meldungen auf der Suche nach optimistischem Journalismus, wissenschaftlichen Errungenschaften, Umwelterfolgen und mutmachenden Menschheitsgeschichten. 
+### Worum geht es?
+Viele Medienkanäle konzentrieren sich vor allem auf Krisen und Eilmeldungen. **Good News Otter** setzt einen bewussten Kontrapunkt: Ein automatisierter Twitch-Stream, der das Netz kontinuierlich nach Fortschritten in Wissenschaft, Umweltschutz, Technologie und herzerwärmenden Alltagsgeschichten durchsucht.
 
-Als bewusster digitaler Gegenpol zu krisen- und sensationsgetriebener Berichterstattung schafft der KI-gesteuerte Kanal einen kontinuierlichen, gemütlichen Raum im Netz für konstruktiven Wissensaustausch.
+### Wie es technisch funktioniert:
+* **Kuration & Textaufbereitung:** News-Feeds werden automatisch erfasst, thematisch gefiltert und für den Stream verständlich aufbereitet.
+* **Automatisierter Broadcast:** Die Video- und Audio-Ausgabe läuft vollautomatisch mit dynamischen Overlays und Musikunterlegung.
+* **Chat-Interaktion:** Zuschauer können im Twitch-Chat interagieren und eigene Themen einbringen.
 
-### Technische Schwerpunkte & KI-Einsatz
-* **KI-Kuration & Textgenerierung:** Automatisierte Erfassung, semantische Filterung und Aufbereitung von weltweiten Positivnachrichten durch LLM-Pipelines.
-* **Automatisierte Streaming-Pipeline:** Kontinuierliche Audio-/Video-Generierung, dynamic Overlays und KI-gestützte Moderation.
-* **Interaktiver Community-Austausch:** Direkte Einbindung der Zuschauer über den Twitch-Live-Chat mit intelligenten Chat-Interaktionen.
-
-Live reinschauen auf [Twitch: twitch.tv/goodnewsotter](https://www.twitch.tv/goodnewsotter) 🦦✨
+Einfach mal reinschauen und abschalten: [twitch.tv/goodnewsotter](https://www.twitch.tv/goodnewsotter) 🦦✨

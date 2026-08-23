@@ -1,5 +1,5 @@
 ---
-title: Laufendes Ehrenamt im Falkenhof
+title: "Ehrenamt im Falkenhof & Waldhaus Potsdam"
 translationKey: "project-falkenhof"
 date: 2026-03-25
 links:
@@ -8,14 +8,17 @@ links:
 tags:
   - Ehrenamt
   - Umweltbildung
-  - Gemeinwesenarbeit
+  - Naturschutz
   - Öffentlichkeitsarbeit
 draft: false
 
 ---
 
-Fortlaufende ehrenamtliche Unterstützung eines Umweltbildungsvereins mit Beiträgen zu digitaler Kommunikation, öffentlichen Veranstaltungen und mobiler Umweltbildung in meiner Freizeit.
+Langjährige ehrenamtliche Unterstützung des Wald-Jagd-Naturerlebnis e.V. – von der Website-Pflege über Waldpädagogik bis zur praktischen Mithilfe bei Veranstaltungen.
 
-Als aktives Mitglied des Vereins unterstütze ich dessen Arbeit auch neben meinem Beruf ehrenamtlich. In meiner Freizeit pflege ich die Homepage, helfe bei öffentlichen Veranstaltungen und unterstütze das Lernort-Natur-Mobil als Teil der Bildungs- und Öffentlichkeitsarbeit des Vereins.
+Seit vielen Jahren unterstütze ich den **Wald-Jagd-Naturerlebnis e.V.** in Potsdam in meiner Freizeit. Der gemeinnützige Verein betreibt das Waldhaus Großer Ravensberg und den Falkenhof und bringt Kindern, Jugendlichen und Familien heimische Wildtiere und Waldökologie näher.
 
-Dieses langjährige Engagement spiegelt meine enge Verbundenheit und mein Interesse wider, technische, organisatorische und praktische Unterstützung zu verbinden. Es zeigt meine Motivation, zu Projekten beizutragen, die Menschen mit Natur, Lernen und Gemeinschaft verbinden.
+### Meine Schwerpunkte:
+* **Website & Digitale Kommunikation:** Laufende Pflege und Aktualisierung des Webauftritts.
+* **Veranstaltungen & Hoffeste:** Unterstützung bei Aktionstagen, Führungen und Mitmach-Programmen.
+* **Lernort-Natur-Mobil:** Begleitung von mobilen Bildungseinsätzen an Schulen und Kitas in der Region.

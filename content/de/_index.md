@@ -45,47 +45,46 @@ sections:
         </div>
         </div>
         <div class="prose prose-lg dark:prose-invert mx-auto text-center mb-14">
-        <p>Oliver Scheer ist ein erfahrener IT-Experte und ehemaliger wissenschaftlicher Forscher mit einem breiten Hintergrund in den Bereichen App-Entwicklung, IT-Koordination und molekularbiologischer Forschung.</p> 
-        <p>Aktuell tätig in der IT-Koordination und im Requirements Engineering mit starkem Fokus auf Atlassian-Tools wie Jira und Confluence sowie im externen Provider-Management.</p>
+        <p>Von der Laborbank und Bioinformatik zur IT-Koordination: Ich verbinde naturwissenschaftliche Denkweise mit strukturierter Software- und Prozessarbeit.</p> 
+        <p>Bei der Deutschen Bundesbank kümmere ich mich um den strategischen Ausbau von Jira und Confluence, Requirements Engineering und agile Arbeitsweisen.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
         <div class="bg-white/60 dark:bg-slate-800/60 p-8 rounded-3xl shadow-lg backdrop-blur-md border border-white/20 flex flex-col h-full">
         <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Interessen</h3>
         <ul class="space-y-4 font-medium text-slate-700 dark:text-slate-300 flex-grow">
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> IT-Koordination</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Digitalisierung</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Technologie</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Künstliche Intelligenz</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Interdisziplinäre Wissenschaft</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Ehrenamt</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Ökologie</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> IT-Koordination & Prozesse</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Atlassian-Plattformen (Jira, Confluence)</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Agile Methoden & Requirements Engineering</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Technologie & Softwareentwicklung</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Bioinformatik & Wissenschaft</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Ehrenamt & Umweltbildung</li>
         </ul>
         </div>
         <div class="bg-white/60 dark:bg-slate-800/60 p-8 rounded-3xl shadow-lg backdrop-blur-md border border-white/20 flex flex-col h-full">
-        <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Berufserfahrung</h3>
+        <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Aktuelle Rolle</h3>
         <h4 class="text-lg font-bold text-slate-900 dark:text-white">Sachbearbeiter – Atlassian Cloud Strategy, Quality Engineering und Agile Methoden</h4>
-        <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Deutsche Bundesbank | Feb. 2024 – Heute</div>
+        <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Deutsche Bundesbank | Seit Feb. 2024</div>
         <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300 flex-grow">
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Strategische Weiterentwicklung und Ausbau des Jira- und Confluence-Angebots.</span></li>
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Schwerpunkt auf Atlassian-Cloud-Strategie, Quality Engineering und agile Arbeitsweisen.</span></li>
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Fachliche Unterstützung für Kollaborationsplattformen und digitale Arbeitsplatzdienste.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Strategischer Ausbau und Betrieb der Jira- und Confluence-Umgebungen.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Begleitung agiler Arbeitsweisen und Einführung moderner Kollaborationstools.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Qualitätssicherung, Beratung und Unterstützung von Fachbereichen.</span></li>
         </ul>
         <div class="pt-6 mt-4 border-t border-slate-200/50 dark:border-slate-700/50">
-        <a href="/de/erfahrung/" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition">Gesamte Berufserfahrung anzeigen <span>→</span></a>
+        <a href="/de/erfahrung/" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition">Vollständigen Werdegang ansehen <span>→</span></a>
         </div>
         </div>
         </div>
   - block: markdown
     id: adventure-hook
     content:
-      title: 'Standard-Lebenslauf zu langweilig?'
+      title: 'Werdegang als Retro-Game?'
       text: |-
-        Betritt meine **Mission Control** und erkunde meinen Weg von der Molekularbiologie in die IT-Koordination als interaktives Point-and-Click Erlebnis.
+        Statt nur Bulletpoints zu lesen: Entdecke die Stationen vom Myzel-Labor und Bienen-Genom über mobile App-Entwicklung bis zur Bundesbank-IT in einem interaktiven Point-and-Click-Abenteuer.
 
         <div class="mt-8 flex justify-center">
         <a href="/de/adventure/" role="button" class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 px-8 py-3.5 text-base font-semibold shadow-lg transition hover:opacity-90 hover:shadow-xl" style="text-decoration:none;color:#fff">
         <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg>
-        Mission starten
+        Abenteuer starten
         </a>
         </div>
     design:
@@ -95,14 +94,14 @@ sections:
           enable: true
   - block: markdown
     content:
-      title: '🚀 Meine Mission'
+      title: 'Was mich antreibt'
       subtitle: ''
       text: |-
-        Getrieben von tiefer Neugier für die Naturwissenschaften und moderne Technologie, ist es meine Mission, die Lücke zwischen komplexen technischen Anforderungen und nutzerzentrierten Lösungen zu schließen.
+        Ob biochemische Versuchsreihen, Genom-Pipelines oder Enterprise-Workflows bei der Bundesbank: Mich begeistert es, komplexe Systeme zu durchdringen und pragmatische Lösungen zu bauen, die Teams den Arbeitsalltag spürbar erleichtern.
 
-        Aufbauend auf meinem Hintergrund in wissenschaftlicher Forschung, mobiler App-Entwicklung und Enterprise-IT gestalte ich digitale Arbeitsplätze, optimiere Workflows und befähige Teams zu effektiverer Zusammenarbeit.
+        Dabei hilft mir der Blick über den Tellerrand – aus der Forschung, der App-Entwicklung und der IT-Koordination.
 
-        Bei Interesse freue ich mich über eine Kontaktaufnahme 😃
+        Fragen oder Lust auf Austausch? Schreib mir gern!
     design:
       columns: '1'
   - block: collection

@@ -1,5 +1,5 @@
 ---
-title: Video Production & Event Organization
+title: "Bio11erRat Leipzig — Video Production & Student Association"
 translationKey: "project-fasching"
 date: 2016-11-01
 links:
@@ -9,19 +9,18 @@ tags:
   - Volunteering
   - Video Production
   - Event Management
-  - Performing Arts
   - Student Association
 draft: false
 
 ---
 
-Active member of the Bio11erRat Leipzig e.V. since 2016. Responsible for producing the annual short films and performing on stage during the traditional "Biofasching" events.
+Creative balance: Concept, camera, and video editing for annual stage short films and student events at Leipzig University.
 
-Since November 2016, I have been an active, dedicated member of the **Bio11erRat Leipzig e.V.**, the official student carnival association of the Faculty of Biosciences, Pharmacy, and Psychology at Leipzig University. The association is widely known for organizing the annual "Biofasching", a major student event featuring elaborate stage programs, dances, and creative storytelling.
+Since November 2016, I have been an active member of **Bio11erRat Leipzig e.V.**, the student association of the biosciences faculty at Leipzig University.
 
-Within the association, I took on a leading creative and technical role:
-*   **Film Production:** I was primarily responsible for the conceptualization, shooting, and editing of the self-produced short films that are a central highlight of the stage show every year.
-*   **Stage Performance:** Beyond my work behind the camera, I also actively participated as an actor, standing on stage in various comedic and theatrical scenes.
-*   **Event Organization:** Supporting the planning, logistics, and execution of large-scale student events and parties.
+### What I do:
+* **Short Film Production:** Directing, filming, and editing the comedy short films featured during the annual stage shows.
+* **Stage & Comedy:** Performing in skits and comedic scenes on stage.
+* **Event Logistics:** Helping coordinate equipment, setup, and backstage logistics.
 
-This long-standing volunteering experience perfectly balances my technical and analytical daily work with highly creative, team-oriented, and entertaining community projects.
+A rewarding creative outlet alongside technical work that centers on storytelling, humor, and teamwork.

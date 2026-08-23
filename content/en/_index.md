@@ -45,47 +45,46 @@ sections:
         </div>
         </div>
         <div class="prose prose-lg dark:prose-invert mx-auto text-center mb-14">
-        <p>Oliver Scheer is an experienced IT professional and former scientific researcher with a broad background spanning app development, IT coordination, and molecular biology research.</p> 
-        <p>Currently working in IT coordination and requirements engineering, with a strong focus on Atlassian tools such as Jira and Confluence, as well as external provider management.</p>
+        <p>From the laboratory bench and bioinformatics to IT coordination: I combine scientific thinking with structured software and process work.</p> 
+        <p>At Deutsche Bundesbank, I focus on the strategic expansion of Jira and Confluence platforms, requirements engineering, and agile methodologies.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
         <div class="bg-white/60 dark:bg-slate-800/60 p-8 rounded-3xl shadow-lg backdrop-blur-md border border-white/20 flex flex-col h-full">
         <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Interests</h3>
         <ul class="space-y-4 font-medium text-slate-700 dark:text-slate-300 flex-grow">
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> IT Coordination</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Digitalization</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Tech</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> AI</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Interdisciplinary Science</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Volunteering</li>
-        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Ecology</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> IT Coordination & Process Design</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Atlassian Ecosystem (Jira, Confluence)</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Agile Methods & Requirements Engineering</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Technology & Software Engineering</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Bioinformatics & Interdisciplinary Science</li>
+        <li class="flex items-center gap-3"><span class="text-primary-500">▶</span> Volunteering & Environmental Outreach</li>
         </ul>
         </div>
         <div class="bg-white/60 dark:bg-slate-800/60 p-8 rounded-3xl shadow-lg backdrop-blur-md border border-white/20 flex flex-col h-full">
-        <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Experience</h3>
+        <h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Current Role</h3>
         <h4 class="text-lg font-bold text-slate-900 dark:text-white">Clerk – Atlassian Cloud Strategy, Quality Engineering and Agile Methods</h4>
-        <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Deutsche Bundesbank | Feb 2024 – Present</div>
+        <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Deutsche Bundesbank | Since Feb 2024</div>
         <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300 flex-grow">
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Strategic development and expansion of Jira and Confluence offerings.</span></li>
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Focus on Atlassian cloud strategy, quality engineering, and agile ways of working.</span></li>
-        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Expert-level support for collaboration platforms and digital workplace services.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Strategic expansion and maintenance of enterprise Jira and Confluence platforms.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Guiding agile ways of working and modern collaboration tool adoption.</span></li>
+        <li class="flex items-start gap-2"><span class="text-primary-500 mt-0.5">▶</span><span>Quality engineering, consulting, and stakeholder support across business units.</span></li>
         </ul>
         <div class="pt-6 mt-4 border-t border-slate-200/50 dark:border-slate-700/50">
-        <a href="/en/experience/" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition">See complete experience <span>→</span></a>
+        <a href="/en/experience/" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition">View full resume <span>→</span></a>
         </div>
         </div>
         </div>
   - block: markdown
     id: adventure-hook
     content:
-      title: 'Tired of standard resumes?'
+      title: 'Prefer a Retro Adventure?'
       text: |-
-        Enter my **Mission Control** and explore my journey from molecular biology to IT coordination in an interactive point-and-click experience.
+        Skip the bullet points: Explore my journey from biochemistry and honeybee genomics to mobile development and central bank IT in an interactive point-and-click experience.
 
         <div class="mt-8 flex justify-center">
         <a href="/en/adventure/" role="button" class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 px-8 py-3.5 text-base font-semibold shadow-lg transition hover:opacity-90 hover:shadow-xl" style="text-decoration:none;color:#fff">
         <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg>
-        Start Exploration
+        Start Adventure
         </a>
         </div>
     design:
@@ -95,14 +94,14 @@ sections:
           enable: true
   - block: markdown
     content:
-      title: '🚀 My Mission'
+      title: 'What Drives Me'
       subtitle: ''
       text: |-
-        Driven by a deep curiosity for both the natural sciences and modern technology, my mission is to bridge the gap between complex technical requirements and user-centric solutions. 
-        
-        Drawing on my background in scientific research, mobile app development, and enterprise IT, I strive to optimize digital workplaces, streamline workflows, and empower teams to collaborate more effectively.
+        Whether working on genomic analysis pipelines, mobile apps, or enterprise tooling at the central bank: I enjoy untangling complex systems and building practical workflows that genuinely help teams work better together.
 
-        Please reach out to collaborate 😃
+        My background across research, software development, and IT coordination gives me a unique perspective on bridging technical requirements with real user needs.
+
+        Feel free to reach out!
     design:
       columns: '1'
   - block: collection

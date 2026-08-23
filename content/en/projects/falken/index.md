@@ -1,5 +1,5 @@
 ---
-title: Ongoing Volunteering at Falkenhof
+title: "Volunteering at Falkenhof & Waldhaus Potsdam"
 translationKey: "project-falkenhof"
 date: 2026-03-25
 links:
@@ -8,14 +8,17 @@ links:
 tags:
   - Volunteering
   - Environmental Education
-  - Community Engagement
-  - Public Outreach
+  - Nature Conservation
+  - Community Outreach
 draft: false
 
 ---
 
-Continued voluntary support for an environmental education association, contributing to digital communication, public events, and mobile outreach activities in my spare time.
+Long-standing volunteer support for an environmental education center — handling website maintenance, supporting nature events, and helping with educational outreach.
 
-As an active member of the association, I continue to support its work on a voluntary basis alongside my professional career. In my spare time, I contribute to the homepage, assist with public events, and support the Lernort-Natur-Mobil as part of the association’s outreach and educational activities.
+For many years, I have volunteered with **Wald-Jagd-Naturerlebnis e.V.** in Potsdam in my spare time. The non-profit runs an environmental education center and falconry that introduces children, families, and visitors to native forest ecosystems and wildlife.
 
-This ongoing commitment reflects my long-term connection to the organization and my interest in combining technical, organizational, and hands-on support. It also highlights my motivation to contribute to projects that connect people with nature, learning, and community engagement.
+### What I do:
+* **Website & Digital Communications:** Maintaining and updating the organization’s website.
+* **Events & Community Days:** Helping organize and run seasonal festivals, guided tours, and hands-on workshops.
+* **Mobile Educational Outreach:** Supporting the "Lernort Natur" outreach bus at regional schools and kindergartens.
