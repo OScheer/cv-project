@@ -1,6 +1,8 @@
 ---
 title: Publikationen
-url: "publikationen/"
+slug: "publikationen"
+translationKey: "publications"
+aliases: [/publikationen/]
 cms_exclude: true
 
 view: citation

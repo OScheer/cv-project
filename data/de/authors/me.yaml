@@ -1,8 +1,31 @@
+schema: "hugoblox/author/v1"
+slug: "me"
+is_owner: true
+name:
+  display: "Oliver Scheer"
+  given: "Thomas Oliver"
+  family: "Scheer"
+postnominals:
+  - "MSc"
+  - "BSc"
+status:
+  icon: "🚀"
 role: "Sachbearbeiter / IT-Koordinator"
 bio: |
   Oliver Scheer ist ein erfahrener IT-Experte und ehemaliger wissenschaftlicher Forscher mit einem breiten Hintergrund in den Bereichen App-Entwicklung, IT-Koordination und molekularbiologischer Forschung.
 
   Aktuell tätig in der IT-Koordination und im Requirements Engineering mit starkem Fokus auf Atlassian-Tools wie Jira und Confluence sowie im externen Provider-Management.
+affiliations:
+  - name: "Deutsche Bundesbank"
+    url: "https://www.bundesbank.de/"
+links:
+  - icon: "at-symbol"
+    url: "mailto:info@scheer-lab.de"
+    label: "E-Mail"
+  - icon: "brands/github"
+    url: "https://github.com/OScheer"
+  - icon: "brands/linkedin"
+    url: "https://www.linkedin.com/in/thomas-oliver-scheer/"
 interests:
   - "IT-Koordination"
   - "Digitalisierung"

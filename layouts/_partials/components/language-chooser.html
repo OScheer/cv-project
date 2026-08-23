@@ -13,16 +13,16 @@
   {{- if and (eq .Language.Lang "en") (not $enUrl) }}{{ $enUrl = .Home.RelPermalink }}{{ end }}
 {{- end }}
 
-<div class="flex items-center rounded-md border border-white/20 overflow-hidden text-xs font-semibold leading-none">
+<div class="inline-flex items-center rounded-full border border-gray-300 dark:border-gray-600 bg-gray-200/90 dark:bg-gray-800 p-0.5 text-xs font-bold shadow-sm">
   {{- if eq $currentLang "de" }}
-    <span class="px-2 py-1 text-white bg-primary-600">DE</span>
+    <span class="rounded-full bg-primary-600 px-2.5 py-1 text-white shadow-sm font-bold tracking-wide">DE</span>
   {{- else }}
-    <a href="{{ $deUrl }}" class="px-2 py-1 text-white/80 hover:text-white transition-colors">DE</a>
+    <a href="{{ $deUrl }}" class="rounded-full px-2.5 py-1 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-gray-300/60 dark:hover:bg-gray-700 font-semibold tracking-wide transition-colors" aria-label="Deutsch">DE</a>
   {{- end }}
-  <span class="text-white/30 select-none">|</span>
+
   {{- if eq $currentLang "en" }}
-    <span class="px-2 py-1 text-white bg-primary-600">EN</span>
+    <span class="rounded-full bg-primary-600 px-2.5 py-1 text-white shadow-sm font-bold tracking-wide">EN</span>
   {{- else }}
-    <a href="{{ $enUrl }}" class="px-2 py-1 text-white/80 hover:text-white transition-colors">EN</a>
+    <a href="{{ $enUrl }}" class="rounded-full px-2.5 py-1 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-gray-300/60 dark:hover:bg-gray-700 font-semibold tracking-wide transition-colors" aria-label="English">EN</a>
   {{- end }}
 </div>

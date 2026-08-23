@@ -22,7 +22,7 @@ hugoblox:
     description: "IT-Koordinator und Requirements Engineer mit Schwerpunkt Atlassian-Tools und agilen Methoden."
     # Social accounts (used for meta tags like Twitter Cards)
     social:
-      twitter: "MakeOwnable" # Twitter/X handle for Twitter Cards (without @)
+      twitter: "" # Twitter/X handle for Twitter Cards (without @)
     tagline: "IT-Koordination | Deutsche Bundesbank"
 
   # ────────────────────────────────────────────────────────────────────────────

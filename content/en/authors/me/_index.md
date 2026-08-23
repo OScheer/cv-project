@@ -21,7 +21,7 @@ affiliations:
     url: "https://www.bundesbank.de/"
 links:
   - icon: "at-symbol"
-    url: "mailto:oliver.scheer@example.com"
+    url: "mailto:info@scheer-lab.de"
     label: "E-mail Me"
   - icon: "brands/github"
     url: "https://github.com/OScheer"

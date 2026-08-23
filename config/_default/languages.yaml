@@ -41,21 +41,21 @@ de:
     main:
       - name: Bio
         identifier: 760b23e1
-        url: /
+        url: /de/
         weight: 10
       - name: Lebenslauf
         identifier: c5f52e09
-        url: erfahrung/
+        url: /de/erfahrung/
         weight: 20
       - name: Abenteuer
         identifier: 2d41e6a7
-        url: adventure/
+        url: /de/adventure/
         weight: 25
       - name: Projekte
         identifier: 43be1cc2
-        url: projekte/
+        url: /de/projekte/
         weight: 30
       - name: Publikationen
         identifier: 08cdd450
-        url: /#publikationen
+        url: /de/#publikationen
         weight: 40

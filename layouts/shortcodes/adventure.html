@@ -1,8 +1,8 @@
 {{/* ============================================================================
   Adventure — 3-Level Point-and-Click CV Game
 
-  Self-contained Hugo shortcode: HTML + scoped CSS + vanilla JS in this file.
-  Icons: Font Awesome 6 (loaded via CDN, deduplicated by the browser).
+  Self-contained Hugo shortcode: HTML + scoped CSS + vanilla JS with inline SVGs.
+  100% DSGVO/GDPR compliant (no external CDN calls, no tracking, zero third-party assets).
 
   Usage: {{< adventure >}}
   Language: localized via .Page.Lang (de / en); strings are serialized into
@@ -92,42 +92,40 @@
 {{ $levels = $levels | append (dict
   "title" $l1Title
   "hotspots" (slice
-    (dict "icon" "fa-microscope"        "label" $l1aL "text" $l1aT "type" "flavor" "x" 25 "y" 38)
-    (dict "icon" "fa-flask"             "label" $l1bL "text" $l1bT "type" "flavor" "x" 62 "y" 42)
-    (dict "icon" "fa-database"          "label" $l1cL "text" $l1cT "type" "quest"  "x" 80 "y" 30 "btn" $l1Btn)
+    (dict "icon" "microscope"        "label" $l1aL "text" $l1aT "type" "flavor" "x" 25 "y" 38)
+    (dict "icon" "flask"             "label" $l1bL "text" $l1bT "type" "flavor" "x" 62 "y" 42)
+    (dict "icon" "database"          "label" $l1cL "text" $l1cT "type" "quest"  "x" 80 "y" 30 "btn" $l1Btn)
   )
 ) }}
 {{ $levels = $levels | append (dict
   "title" $l2Title
   "hotspots" (slice
-    (dict "icon" "fa-circle-question"   "label" $l2aL "text" $l2aT "type" "flavor" "x" 22 "y" 45)
-    (dict "icon" "fa-sticky-note"       "label" $l2bL "text" $l2bT "type" "flavor" "x" 62 "y" 30)
-    (dict "icon" "fa-chalkboard"        "label" $l2cL "text" $l2cT "type" "quest"  "x" 78 "y" 40 "btn" $l2Btn)
+    (dict "icon" "question"          "label" $l2aL "text" $l2aT "type" "flavor" "x" 22 "y" 45)
+    (dict "icon" "sticky-note"       "label" $l2bL "text" $l2bT "type" "flavor" "x" 62 "y" 30)
+    (dict "icon" "chalkboard"        "label" $l2cL "text" $l2cT "type" "quest"  "x" 78 "y" 40 "btn" $l2Btn)
   )
 ) }}
 {{ $levels = $levels | append (dict
   "title" $l3Title
   "hotspots" (slice
-    (dict "icon" "fa-server"            "label" $l3aL "text" $l3aT "type" "flavor" "x" 24 "y" 46)
-    (dict "icon" "fa-chart-line"        "label" $l3bL "text" $l3bT "type" "flavor" "x" 58 "y" 30)
-    (dict "icon" "fa-terminal"          "label" $l3cL "text" $l3cT "type" "quest"  "x" 80 "y" 42 "btn" $l3Btn)
+    (dict "icon" "server"            "label" $l3aL "text" $l3aT "type" "flavor" "x" 24 "y" 46)
+    (dict "icon" "chart-line"        "label" $l3bL "text" $l3bT "type" "flavor" "x" 58 "y" 30)
+    (dict "icon" "terminal"          "label" $l3cL "text" $l3cT "type" "quest"  "x" 80 "y" 42 "btn" $l3Btn)
   )
 ) }}
 
 {{ $data := dict
-  "hudTitle"  $hudTitle
-  "hint"      $hint
-  "close"     $close
+  "hudTitle"   $hudTitle
+  "hint"       $hint
+  "close"      $close
   "dialogAria" $dialogAria
   "questBadge" $questBadge
-  "noscript"  $noscript
-  "home"      $home
-  "levels"    $levels
+  "noscript"   $noscript
+  "home"       $home
+  "levels"     $levels
 }}
 
 <div id="adventure-root">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-
   <style>
     #adventure-root {
       position: relative;
@@ -138,6 +136,7 @@
       overflow: hidden;
       background: #0f172a;
       box-shadow: 0 20px 50px -12px rgb(2 6 23 / .5);
+      user-select: none;
     }
     #adventure-root *, #adventure-root *::before, #adventure-root *::after { box-sizing: border-box; }
     #adventure-root [hidden] { display: none !important; }
@@ -192,10 +191,15 @@
     .adv-deco {
       position: absolute;
       z-index: 1;
-      opacity: .4;
-      font-size: clamp(1.8rem, 6vw, 3.4rem);
+      opacity: .35;
+      width: clamp(2rem, 6vw, 3.8rem);
+      height: clamp(2rem, 6vw, 3.8rem);
       pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    .adv-deco svg { width: 100%; height: 100%; fill: currentColor; }
 
     /* ---------------------------------------------------------------- */
     /* Hotspots                                                         */
@@ -223,10 +227,16 @@
       width: 2.6em;
       height: 2.6em;
       border-radius: 50%;
-      background: rgb(255 255 255 / .55);
+      background: rgb(255 255 255 / .6);
       color: inherit;
       box-shadow: 0 6px 16px rgb(0 0 0 / .18);
       transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .adv-spot .adv-icondisc svg {
+      width: 52%;
+      height: 52%;
+      fill: currentColor;
+      filter: drop-shadow(0 2px 4px rgb(0 0 0 / .15));
     }
     .adv-spot .adv-icondisc::before {
       content: "";
@@ -237,7 +247,6 @@
       opacity: .55;
       animation: advPing 2.4s ease-out infinite;
     }
-    .adv-spot i { font-size: 1.2em; text-shadow: 0 4px 10px rgb(0 0 0 / .2); }
     .adv-spot small {
       font-size: .55em;
       font-weight: 700;
@@ -246,16 +255,16 @@
       white-space: nowrap;
       padding: .25em .6em;
       border-radius: 999px;
-      background: rgb(15 23 42 / .55);
+      background: rgb(15 23 42 / .65);
       color: #fff;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
     }
     .adv-spot:hover .adv-icondisc,
     .adv-spot:focus-visible .adv-icondisc { transform: scale(1.15); }
     .adv-spot:focus-visible { outline: 3px solid rgb(99 102 241 / .8); outline-offset: 4px; border-radius: .5rem; }
 
     .adv-spot.is-quest { color: #92400e; }
-    .adv-spot.is-quest .adv-icondisc { background: rgb(251 191 36 / .55); box-shadow: 0 0 0 3px rgb(251 191 36 / .45), 0 8px 20px rgb(0 0 0 / .25); }
+    .adv-spot.is-quest .adv-icondisc { background: rgb(251 191 36 / .65); box-shadow: 0 0 0 3px rgb(251 191 36 / .45), 0 8px 20px rgb(0 0 0 / .25); }
     .adv-spot.is-quest .adv-icondisc::before { border-color: #fbbf24; }
 
     .adv-badge {
@@ -271,11 +280,15 @@
       color: #fff;
       box-shadow: 0 2px 8px rgb(0 0 0 / .35);
       animation: advFloat 2.6s ease-in-out infinite;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .adv-spot.is-solved { color: #14532d; }
-    .adv-spot.is-solved .adv-icondisc { background: rgb(74 222 128 / .6); box-shadow: 0 0 0 3px rgb(34 197 94 / .6); }
+    .adv-spot.is-solved .adv-icondisc { background: rgb(74 222 128 / .65); box-shadow: 0 0 0 3px rgb(34 197 94 / .6); }
     .adv-spot.is-solved .adv-icondisc::before { animation: none; opacity: 0; }
-    .adv-badge--ok { background: #22c55e; color: #052e16; animation: none; }
+    .adv-badge--ok { background: #22c55e; color: #052e16; animation: none; padding: .3em; }
+    .adv-badge--ok svg { width: 1.2em; height: 1.2em; fill: currentColor; }
 
     @keyframes advPing {
       0%   { transform: scale(.82); opacity: .7; }
@@ -308,9 +321,9 @@
       letter-spacing: .03em;
       padding: .35rem .7rem;
       border-radius: 999px;
-      background: rgb(15 23 42 / .55);
+      background: rgb(15 23 42 / .65);
       color: #fff;
-      backdrop-filter: blur(3px);
+      backdrop-filter: blur(4px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -336,9 +349,9 @@
       font-weight: 500;
       padding: .3rem .6rem;
       border-radius: 999px;
-      background: rgb(15 23 42 / .5);
+      background: rgb(15 23 42 / .55);
       color: #e2e8f0;
-      backdrop-filter: blur(3px);
+      backdrop-filter: blur(4px);
       pointer-events: none;
     }
 
@@ -362,11 +375,11 @@
       position: relative;
       padding: .85rem 2.6rem .9rem .95rem;
       border-radius: .9rem;
-      background: rgb(2 6 23 / .9);
+      background: rgb(2 6 23 / .92);
       color: #f1f5f9;
-      border: 1px solid rgb(255 255 255 / .14);
-      box-shadow: 0 -10px 30px rgb(0 0 0 / .35);
-      backdrop-filter: blur(6px);
+      border: 1px solid rgb(255 255 255 / .15);
+      box-shadow: 0 -10px 30px rgb(0 0 0 / .4);
+      backdrop-filter: blur(8px);
     }
     .adv-dialog-char {
       display: flex;
@@ -379,7 +392,7 @@
       text-transform: uppercase;
       margin-bottom: .35rem;
     }
-    .adv-dialog-char i { width: 1.2em; text-align: center; }
+    .adv-dialog-char svg { width: 1.3em; height: 1.3em; fill: currentColor; }
     .adv-dialog-text {
       margin: 0;
       font-size: clamp(.8rem, 2.6vw, 1rem);
@@ -413,8 +426,9 @@
       cursor: pointer;
       font-size: .8rem;
       line-height: 1;
+      transition: background .2s ease;
     }
-    .adv-dialog-close:hover { background: rgb(255 255 255 / .25); }
+    .adv-dialog-close:hover { background: rgb(255 255 255 / .25); color: #fff; }
     .adv-dialog-btn {
       display: inline-flex;
       align-items: center;
@@ -431,7 +445,7 @@
       box-shadow: 0 6px 16px rgb(99 102 241 / .45);
       transition: filter .2s ease, transform .15s ease;
     }
-    .adv-dialog-btn:hover { filter: brightness(1.08); }
+    .adv-dialog-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
     .adv-dialog-btn:active { transform: translateY(1px); }
 
     #adventure-root .adv-noscript {
@@ -450,6 +464,7 @@
       .adv-dialog { padding: .6rem; }
       .adv-dialog-box { padding: .7rem 2.2rem .75rem .75rem; }
       .adv-hint { display: none; }
+      .adv-spot small { font-size: .45em; padding: .2em .4em; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -462,28 +477,28 @@
 
   {{/* Level 1 — The Lab */}}
   <div class="adv-level adv-level--lab is-active" data-level="1" aria-hidden="false">
-    <i class="adv-deco fas fa-dna" style="left:6%; top:14%; color:#2563eb" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-vial" style="left:16%; top:56%; color:#7c3aed" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-flask" style="left:72%; top:16%; color:#0891b2" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-biohazard" style="left:90%; top:56%; color:#0ea5e9" aria-hidden="true"></i>
+    <div class="adv-deco" style="left:6%; top:14%; color:#2563eb" aria-hidden="true" data-icon="dna"></div>
+    <div class="adv-deco" style="left:16%; top:56%; color:#7c3aed" aria-hidden="true" data-icon="vial"></div>
+    <div class="adv-deco" style="left:72%; top:16%; color:#0891b2" aria-hidden="true" data-icon="flask"></div>
+    <div class="adv-deco" style="left:90%; top:56%; color:#0ea5e9" aria-hidden="true" data-icon="biohazard"></div>
   </div>
 
   {{/* Level 2 — The Valley of Chaos */}}
   <div class="adv-level adv-level--chaos" data-level="2" aria-hidden="true">
-    <i class="adv-deco fas fa-sticky-note" style="left:8%; top:12%; color:#b45309; transform:rotate(-12deg)" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-sticky-note" style="left:35%; top:7%; color:#a16207; transform:rotate(8deg)" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-envelope-open-text" style="left:12%; top:40%; color:#92400e" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-paper-plane" style="left:88%; top:14%; color:#78350f; transform:rotate(18deg)" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-sticky-note" style="left:52%; top:62%; color:#b45309; transform:rotate(-6deg)" aria-hidden="true"></i>
+    <div class="adv-deco" style="left:8%; top:12%; color:#b45309; transform:rotate(-12deg)" aria-hidden="true" data-icon="sticky-note"></div>
+    <div class="adv-deco" style="left:35%; top:7%; color:#a16207; transform:rotate(8deg)" aria-hidden="true" data-icon="sticky-note"></div>
+    <div class="adv-deco" style="left:12%; top:40%; color:#92400e" aria-hidden="true" data-icon="envelope"></div>
+    <div class="adv-deco" style="left:88%; top:14%; color:#78350f; transform:rotate(18deg)" aria-hidden="true" data-icon="paper-plane"></div>
+    <div class="adv-deco" style="left:52%; top:62%; color:#b45309; transform:rotate(-6deg)" aria-hidden="true" data-icon="sticky-note"></div>
   </div>
 
   {{/* Level 3 — Command Center */}}
   <div class="adv-level adv-level--neon" data-level="3" aria-hidden="true">
-    <i class="adv-deco fas fa-server" style="left:8%; top:58%; color:#6366f1" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-shield-halved" style="left:88%; top:12%; color:#22d3ee" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-bolt" style="left:14%; top:12%; color:#facc15" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-wifi" style="left:86%; top:60%; color:#a78bfa" aria-hidden="true"></i>
-    <i class="adv-deco fas fa-database" style="left:48%; top:9%; color:#818cf8" aria-hidden="true"></i>
+    <div class="adv-deco" style="left:8%; top:58%; color:#6366f1" aria-hidden="true" data-icon="server"></div>
+    <div class="adv-deco" style="left:88%; top:12%; color:#22d3ee" aria-hidden="true" data-icon="shield"></div>
+    <div class="adv-deco" style="left:14%; top:12%; color:#facc15" aria-hidden="true" data-icon="bolt"></div>
+    <div class="adv-deco" style="left:86%; top:60%; color:#a78bfa" aria-hidden="true" data-icon="wifi"></div>
+    <div class="adv-deco" style="left:48%; top:9%; color:#818cf8" aria-hidden="true" data-icon="database"></div>
   </div>
 
   {{/* HUD */}}
@@ -518,35 +533,64 @@
       'use strict';
       var root = document.getElementById('adventure-root');
       if (!root) { return; }
+
       var dataEl = document.getElementById('adv-data');
       if (!dataEl) { return; }
-      var data;
-      try { data = JSON.parse(dataEl.textContent); } catch (e) { return; }
-      if (!data || !data.levels) { return; }
-      var $ = function (s) { return root.querySelector(s); };
-      var $$ = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+      var data = JSON.parse(dataEl.textContent);
 
-      var levels = $$('[data-level]');
-      var dots = $$('[data-dot]');
-      var hudTitle = $('[data-hud-title]');
-      var hintEl = $('[data-hint]');
-      var dialog = $('[data-dialog]');
-      var dialogChar = $('[data-dialog-char]');
-      var dialogText = $('[data-dialog-text]');
-      var dialogBtn = $('[data-dialog-btn]');
-      var closeBtn = $('[data-dialog-close]');
+      // Embedded, accessible inline SVGs (Zero external CDN calls, 100% GDPR compliant)
+      var ICONS = {
+        microscope: '<svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 0-4 4v4H6v2h2v4a4 4 0 0 0 4 4h5a1 1 0 1 0 0-2h-5a2 2 0 0 1-2-2v-4h2.5a3.5 3.5 0 0 0 3.5-3.5V6a4 4 0 0 0-4-4zm0 2a2 2 0 0 1 2 2v4.5a1.5 1.5 0 0 1-1.5 1.5H10V6a2 2 0 0 1 2-2zM4 20h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2z"/></svg>',
+        flask: '<svg viewBox="0 0 24 24"><path d="M9 2v2h1v4.184L4.17 19.846A2 2 0 0 0 5.83 23h12.34a2 2 0 0 0 1.66-3.154L14 8.184V4h1V2H9zm3 8.355 4.8 9.645H7.2L12 10.355z"/></svg>',
+        database: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/><path d="M3 11v6c0 1.657 4.03 3 9 3s9-1.343 9-3v-6"/><path d="M3 17v2c0 1.657 4.03 3 9 3s9-1.343 9-3v-2"/></svg>',
+        question: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
+        'sticky-note': '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/></svg>',
+        chalkboard: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 11h4"/><path d="M14 11h3"/></svg>',
+        server: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="2"/><rect x="2" y="11" width="20" height="6" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="14" r="1"/></svg>',
+        'chart-line': '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
+        terminal: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m7 9 3 3-3 3"/><path d="M13 15h4"/></svg>',
+        dna: '<svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="M17 6l-2.5 2.5"/><path d="M14 8l-1 1"/><path d="M7 18l2.5-2.5"/><path d="M3.5 14.5l.5.5"/><path d="M20 9.5l.5.5"/></svg>',
+        vial: '<svg viewBox="0 0 24 24"><path d="M6 2h12v2H6z"/><path d="M7 4v13a5 5 0 0 0 10 0V4"/><path d="M7 11h10"/></svg>',
+        biohazard: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 4a5 5 0 0 0-4.33 2.5A5 5 0 0 1 12 9a5 5 0 0 1 4.33-2.5A5 5 0 0 0 12 4z"/><path d="M6.8 19a5 5 0 0 0 5-1.5 5 5 0 0 1-2.17-4.5A5 5 0 0 1 5.3 14 5 5 0 0 0 6.8 19z"/><path d="M17.2 19a5 5 0 0 0 1.5-5 5 5 0 0 1-4.33-1 5 5 0 0 1-2.17 4.5 5 5 0 0 0 5 1.5z"/></svg>',
+        envelope: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+        'paper-plane': '<svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
+        shield: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        bolt: '<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+        wifi: '<svg viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>',
+        check: '<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'
+      };
+
+      function getIcon(name) {
+        return ICONS[name] || '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>';
+      }
+
+      // Populate decorative background icons
+      root.querySelectorAll('.adv-deco[data-icon]').forEach(function (el) {
+        el.innerHTML = getIcon(el.getAttribute('data-icon'));
+      });
 
       var current = 0;
-      var solved = {};
-      var typer = null;
-      var typing = { node: null, text: '' };
+      var solved = [false, false, false];
+      var levels = root.querySelectorAll('.adv-level');
+      var dots = root.querySelectorAll('[data-dot]');
+      var hudTitle = root.querySelector('[data-hud-title]');
+      var hint = root.querySelector('[data-hint]');
+      var dialog = root.querySelector('[data-dialog]');
+      var dialogChar = root.querySelector('[data-dialog-char]');
+      var dialogText = root.querySelector('[data-dialog-text]');
+      var dialogBtn = root.querySelector('[data-dialog-btn]');
+      var closeBtn = root.querySelector('[data-dialog-close]');
 
-      hintEl.textContent = data.hint;
+      hint.textContent = data.hint;
+
+      var typing = { node: null, text: '' };
+      var typer = null;
 
       function render() {
         levels.forEach(function (l, i) {
-          l.classList.toggle('is-active', i === current);
-          l.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+          var active = i === current;
+          l.classList.toggle('is-active', active);
+          l.setAttribute('aria-hidden', !active);
         });
         hudTitle.textContent = data.levels[current].title;
         dots.forEach(function (d, i) {
@@ -583,8 +627,8 @@
         }, 13);
       }
 
-      function openDialog(spot, el) {
-        dialogChar.innerHTML = '<i class="fas ' + spot.icon + '" aria-hidden="true"></i><span>' + spot.label + '</span>';
+      function openDialog(spot) {
+        dialogChar.innerHTML = getIcon(spot.icon) + '<span>' + spot.label + '</span>';
         typeText(dialogText, spot.text);
         if (spot.type === 'quest') {
           dialogBtn.textContent = spot.btn;
@@ -617,7 +661,7 @@
           var badge = spot.type === 'quest'
             ? '<span class="adv-badge">' + data.questBadge + '</span>'
             : '';
-          b.innerHTML = '<span class="adv-icondisc"><i class="fas ' + spot.icon + '" aria-hidden="true"></i>' + badge + '</span><small>' + spot.label + '</small>';
+          b.innerHTML = '<span class="adv-icondisc">' + getIcon(spot.icon) + badge + '</span><small>' + spot.label + '</small>';
           b.addEventListener('click', function () { onSpot(idx, spot); });
           levelEl.appendChild(b);
         });
@@ -635,7 +679,7 @@
           var badge = q.querySelector('.adv-badge');
           if (badge) {
             badge.className = 'adv-badge adv-badge--ok';
-            badge.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i>';
+            badge.innerHTML = getIcon('check');
           }
         }
         render();

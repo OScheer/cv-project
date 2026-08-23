@@ -175,8 +175,7 @@
 
       {{ $show_translations := site.Params.hugoblox.header.language_switcher | default true }}
       {{ if $show_translations }}
-      <div class="pl-1 mr-5 text-[var(--hb-color-header-fg)] hover:text-primary-500
-            [&.active]:font-bold [&.active]:text-primary-500">
+      <div class="pl-1 mr-3 flex items-center">
         {{- partial "components/language-chooser.html" (dict "page" .) -}}
       </div>
       {{ end }}

@@ -1,6 +1,8 @@
 ---
 title: 'Projekte'
 url: "projekte/"
+translationKey: "projects"
+aliases: [/projekte/]
 date: 2024-05-19
 type: landing
 
@@ -14,7 +16,7 @@ sections:
       text: Ich gestalte gerne Dinge. Hier eine Auswahl an Projekten, an denen ich im Laufe der Jahre gearbeitet habe.
       filters:
         folders:
-          - projekte
+          - projects
     design:
       view: article-grid
       fill_image: false
