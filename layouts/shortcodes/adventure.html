@@ -1,707 +1,1101 @@
 {{/* ============================================================================
-  Adventure — 3-Level Point-and-Click CV Game
-
-  Self-contained Hugo shortcode: HTML + scoped CSS + vanilla JS with inline SVGs.
-  100% DSGVO/GDPR compliant (no external CDN calls, no tracking, zero third-party assets).
-
-  Usage: {{< adventure >}}
-  Language: localized via .Page.Lang (de / en); strings are serialized into
-  the ADV_DATA JS object before the game script runs.
+  Adventure — Point-and-Click CV Game: Vom Myzel zur Bundesbank-IT
+  100% DSGVO-konform: Web Audio Synthesizer, Inline-SVGs, keine externen Requests.
+  Bilingual: DE & EN
 ============================================================================ */}}
 
 {{ $lang := .Page.Lang }}
-{{ $home := .Site.Home.RelPermalink }}
-
-{{/* ------------------------------------------------------------------ */}}
-{{/* EN defaults                                                        */}}
-{{/* ------------------------------------------------------------------ */}}
-{{ $hudTitle   := "Point & Click CV" }}
-{{ $hint       := "Click the glowing objects to explore my journey" }}
-{{ $close      := "Close" }}
-{{ $dialogAria := "Adventure dialog" }}
-{{ $questBadge := "QUEST" }}
-{{ $noscript   := "This adventure requires JavaScript." }}
-
-{{ $l1Title := "Level 1 · The Lab · Molecular Biology" }}
-{{ $l1aL    := "Microscope" }}
-{{ $l1aT    := "Examining cells under the microscope. Everything is still very analog." }}
-{{ $l1bL    := "Petri Dish" }}
-{{ $l1bT    := "Cultivating samples. Fascinating — but slow." }}
-{{ $l1cL    := "Sequencing Data" }}
-{{ $l1cT    := "Quest: Save the retina neurons! The sequencing data is massive. Manual processing is no longer possible. You need automation and IT!" }}
-{{ $l1Btn   := "Transition to IT" }}
-
-{{ $l2Title := "Level 2 · The Valley of Chaos · Agile Transition" }}
-{{ $l2aL    := "Confused Colleague" }}
-{{ $l2aT    := "Nobody knows who is working on what right now." }}
-{{ $l2bL    := "Flying Notes" }}
-{{ $l2bT    := "Requirements get lost in the email inbox." }}
-{{ $l2cL    := "Whiteboard" }}
-{{ $l2cT    := "Quest: Bring order to the system! You gather requirements, introduce Jira, and transform chaos into structured Sprints." }}
-{{ $l2Btn   := "Enter Command Center" }}
-
-{{ $l3Title := "Level 3 · Command Center · IT Coordination" }}
-{{ $l3aL    := "Server Racks" }}
-{{ $l3aT    := "The infrastructure is running stable." }}
-{{ $l3bL    := "Team Dashboard" }}
-{{ $l3bT    := "Transparency across all projects." }}
-{{ $l3cL    := "Main Terminal" }}
-{{ $l3cT    := "Quest: The Final Project. You optimized the processes and unlocked the Atlassian Network. Mission Complete!" }}
-{{ $l3Btn   := "View full CV" }}
-
+{{ $cvUrl := "/en/experience/" }}
 {{ if eq $lang "de" }}
-  {{ $hudTitle   = "Point & Click Lebenslauf" }}
-  {{ $hint       = "Klicke die leuchtenden Objekte an und erkunde meinen Weg" }}
-  {{ $close      = "Schließen" }}
-  {{ $dialogAria = "Abenteuer-Dialog" }}
-  {{ $questBadge = "AUFTRAG" }}
-  {{ $noscript   = "Dieses Abenteuer benötigt JavaScript." }}
-
-  {{ $l1Title = "Level 1 · Das Labor · Molekularbiologie" }}
-  {{ $l1aL    = "Mikroskop" }}
-  {{ $l1aT    = "Untersuchung von Zellen. Alles noch sehr analog." }}
-  {{ $l1bL    = "Petrischale" }}
-  {{ $l1bT    = "Kultivierung von Proben. Faszinierend, aber langsam." }}
-  {{ $l1cL    = "Sequenzierungsdaten" }}
-  {{ $l1cT    = "Quest: Rette die Netzhaut-Neuronen! Die Sequenzierungsdaten sind riesig. Händisch ist das nicht mehr zu bewältigen. Du brauchst Automatisierung und IT!" }}
-  {{ $l1Btn   = "Wechsel in die IT" }}
-
-  {{ $l2Title = "Level 2 · Das Tal des Chaos · Agile Transition" }}
-  {{ $l2aL    = "Verwirrter Kollege" }}
-  {{ $l2aT    = "Niemand weiß, wer gerade woran arbeitet." }}
-  {{ $l2bL    = "Fliegende Zettel" }}
-  {{ $l2bT    = "Anforderungen gehen im E-Mail-Postfach verloren." }}
-  {{ $l2cL    = "Whiteboard" }}
-  {{ $l2cT    = "Quest: Bringe Ordnung in das System! Du sammelst Anforderungen (Requirements Engineering), führst Jira ein und wandelst das Chaos in strukturierte Sprints um." }}
-  {{ $l2Btn   = "Betrete Kommando-Stand" }}
-
-  {{ $l3Title = "Level 3 · Kommando-Stand · IT-Koordination" }}
-  {{ $l3aL    = "Server-Racks" }}
-  {{ $l3aT    = "Die Infrastruktur läuft stabil." }}
-  {{ $l3bL    = "Team-Dashboard" }}
-  {{ $l3bT    = "Transparenz über alle Projekte hinweg." }}
-  {{ $l3cL    = "Hauptterminal" }}
-  {{ $l3cT    = "Quest: Das finale Projekt. Du hast die Prozesse optimiert und das Atlassian-Netzwerk freigeschaltet. Mission erfolgreich!" }}
-  {{ $l3Btn   = "Zum klassischen Lebenslauf" }}
+  {{ $cvUrl = "/de/erfahrung/" }}
 {{ end }}
 
-{{/* ------------------------------------------------------------------ */}}
-{{/* Build the game data (serialized into JS via jsonify)               */}}
-{{/* ------------------------------------------------------------------ */}}
-{{ $levels := slice }}
-{{ $levels = $levels | append (dict
-  "title" $l1Title
-  "hotspots" (slice
-    (dict "icon" "microscope"        "label" $l1aL "text" $l1aT "type" "flavor" "x" 25 "y" 38)
-    (dict "icon" "flask"             "label" $l1bL "text" $l1bT "type" "flavor" "x" 62 "y" 42)
-    (dict "icon" "database"          "label" $l1cL "text" $l1cT "type" "quest"  "x" 80 "y" 30 "btn" $l1Btn)
-  )
-) }}
-{{ $levels = $levels | append (dict
-  "title" $l2Title
-  "hotspots" (slice
-    (dict "icon" "question"          "label" $l2aL "text" $l2aT "type" "flavor" "x" 22 "y" 45)
-    (dict "icon" "sticky-note"       "label" $l2bL "text" $l2bT "type" "flavor" "x" 62 "y" 30)
-    (dict "icon" "chalkboard"        "label" $l2cL "text" $l2cT "type" "quest"  "x" 78 "y" 40 "btn" $l2Btn)
-  )
-) }}
-{{ $levels = $levels | append (dict
-  "title" $l3Title
-  "hotspots" (slice
-    (dict "icon" "server"            "label" $l3aL "text" $l3aT "type" "flavor" "x" 24 "y" 46)
-    (dict "icon" "chart-line"        "label" $l3bL "text" $l3bT "type" "flavor" "x" 58 "y" 30)
-    (dict "icon" "terminal"          "label" $l3cL "text" $l3cT "type" "quest"  "x" 80 "y" 42 "btn" $l3Btn)
-  )
-) }}
+<div id="adventure-container" class="adv-wrapper not-prose" data-lang="{{ $lang }}" data-cv-url="{{ $cvUrl }}">
+  <div id="adventure-frame" class="adv-frame">
+    
+    {{/* CRT Scanlines Overlay */}}
+    <div id="adv-crt" class="adv-crt-layer" aria-hidden="true"></div>
 
-{{ $data := dict
-  "hudTitle"   $hudTitle
-  "hint"       $hint
-  "close"      $close
-  "dialogAria" $dialogAria
-  "questBadge" $questBadge
-  "noscript"   $noscript
-  "home"       $home
-  "levels"     $levels
-}}
+    {{/* TOP HUD */}}
+    <header class="adv-top-hud">
+      <div class="adv-hud-left">
+        <span class="adv-hud-level-badge" id="adv-level-title">Station 1</span>
+      </div>
+      <div class="adv-hud-center">
+        <div class="adv-hud-dots" id="adv-dots"></div>
+      </div>
+      <div class="adv-hud-controls">
+        <button type="button" id="adv-btn-crt" class="adv-pill-btn" title="CRT Mode">CRT: OFF</button>
+        <button type="button" id="adv-btn-sound" class="adv-pill-btn" title="Sound Toggle">🔊</button>
+      </div>
+    </header>
 
-<div id="adventure-root">
-  <style>
-    #adventure-root {
-      position: relative;
-      width: min(100%, 800px);
-      margin: 1.5rem auto;
-      aspect-ratio: 16 / 9;
-      border-radius: 1rem;
-      overflow: hidden;
-      background: #0f172a;
-      box-shadow: 0 20px 50px -12px rgb(2 6 23 / .5);
-      user-select: none;
-    }
-    #adventure-root *, #adventure-root *::before, #adventure-root *::after { box-sizing: border-box; }
-    #adventure-root [hidden] { display: none !important; }
-    #adventure-root button { font-family: inherit; }
+    {{/* SCENE VIEWPORT */}}
+    <main class="adv-viewport" id="adv-viewport">
+      
+      {{/* Station 1: Mycelium & Lab (UFZ / Biochemie) */}}
+      <div class="adv-scene adv-scene--mycelium" data-level="1"></div>
 
-    /* ---------------------------------------------------------------- */
-    /* Levels — absolutely positioned so they can crossfade             */
-    /* ---------------------------------------------------------------- */
-    .adv-level {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity .55s ease;
-      overflow: hidden;
-    }
-    .adv-level.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
+      {{/* Station 2: Bioinformatics & Honeybee Genome (Uni Leipzig) */}}
+      <div class="adv-scene adv-scene--bioinfo" data-level="2"></div>
 
-    /* Level themes */
-    .adv-level--lab {
-      background: linear-gradient(180deg, #eef6ff 0%, #dbeafe 45%, #bfdbfe 62%, #cbd5e1 100%);
-    }
-    .adv-level--lab::before {
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 16%;
-      background: linear-gradient(180deg, #94a3b8, #64748b);
-      border-top: 3px solid #cbd5e1;
-    }
-    .adv-level--chaos {
-      background: linear-gradient(160deg, #fefce8 0%, #fde68a 45%, #f59e0b 78%, #78716c 100%);
-    }
-    .adv-level--chaos::before {
-      content: ""; position: absolute; inset: auto 0 0 0; height: 12%;
-      background: linear-gradient(180deg, #57534e, #44403c); opacity: .55;
-    }
-    .adv-level--neon {
-      background: radial-gradient(120% 120% at 20% 0%, #312e81 0%, #1e1b4b 35%, #020617 82%);
-    }
-    .adv-level--neon::after {
-      content: ""; position: absolute; inset: 0; opacity: .32;
-      background-image:
-        linear-gradient(rgb(129 140 248 / .35) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(129 140 248 / .35) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-    .adv-level--neon::before {
-      content: ""; position: absolute; inset: auto 0 0 0; height: 12%;
-      background: linear-gradient(180deg, transparent, #312e81);
-    }
+      {{/* Station 3: Mobile Software Dev & MedTech (Preventicus) */}}
+      <div class="adv-scene adv-scene--mobile" data-level="3"></div>
 
-    /* Decorative background icons */
-    .adv-deco {
-      position: absolute;
-      z-index: 1;
-      opacity: .35;
-      width: clamp(2rem, 6vw, 3.8rem);
-      height: clamp(2rem, 6vw, 3.8rem);
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .adv-deco svg { width: 100%; height: 100%; fill: currentColor; }
+      {{/* Station 4: Deutsche Bundesbank IT & Atlassian Strategy */}}
+      <div class="adv-scene adv-scene--bundesbank" data-level="4"></div>
 
-    /* ---------------------------------------------------------------- */
-    /* Hotspots                                                         */
-    /* ---------------------------------------------------------------- */
-    .adv-spot {
-      position: absolute;
-      z-index: 3;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .3rem;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: #0f172a;
-      cursor: pointer;
-      font-size: clamp(1.3rem, 4vw, 2.1rem);
-    }
-    .adv-spot .adv-icondisc {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.6em;
-      height: 2.6em;
-      border-radius: 50%;
-      background: rgb(255 255 255 / .6);
-      color: inherit;
-      box-shadow: 0 6px 16px rgb(0 0 0 / .18);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .adv-spot .adv-icondisc svg {
-      width: 52%;
-      height: 52%;
-      fill: currentColor;
-      filter: drop-shadow(0 2px 4px rgb(0 0 0 / .15));
-    }
-    .adv-spot .adv-icondisc::before {
-      content: "";
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 2px solid rgb(15 23 42 / .35);
-      opacity: .55;
-      animation: advPing 2.4s ease-out infinite;
-    }
-    .adv-spot small {
-      font-size: .55em;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      padding: .25em .6em;
-      border-radius: 999px;
-      background: rgb(15 23 42 / .65);
-      color: #fff;
-      backdrop-filter: blur(4px);
-    }
-    .adv-spot:hover .adv-icondisc,
-    .adv-spot:focus-visible .adv-icondisc { transform: scale(1.15); }
-    .adv-spot:focus-visible { outline: 3px solid rgb(99 102 241 / .8); outline-offset: 4px; border-radius: .5rem; }
+      {{/* Hotspots Container */}}
+      <div id="adv-hotspots-layer" class="adv-hotspots-layer"></div>
 
-    .adv-spot.is-quest { color: #92400e; }
-    .adv-spot.is-quest .adv-icondisc { background: rgb(251 191 36 / .65); box-shadow: 0 0 0 3px rgb(251 191 36 / .45), 0 8px 20px rgb(0 0 0 / .25); }
-    .adv-spot.is-quest .adv-icondisc::before { border-color: #fbbf24; }
+      {{/* Victory Screen */}}
+      <div id="adv-victory" class="adv-victory-layer" hidden>
+        <div class="adv-victory-card">
+          <div class="adv-victory-icon-badge" id="adv-victory-badge"></div>
+          <h2 class="adv-victory-heading" id="adv-victory-title"></h2>
+          <p class="adv-victory-desc" id="adv-victory-text"></p>
+          <div class="adv-victory-actions">
+            <a href="{{ $cvUrl }}" class="adv-btn-primary" id="adv-victory-cv-btn"></a>
+            <button type="button" id="adv-btn-restart" class="adv-btn-secondary"></button>
+          </div>
+        </div>
+      </div>
+    </main>
 
-    .adv-badge {
-      position: absolute;
-      top: -.55em;
-      right: -.55em;
-      font-size: .42em;
-      font-weight: 800;
-      letter-spacing: .08em;
-      padding: .3em .6em;
-      border-radius: 999px;
-      background: #d97706;
-      color: #fff;
-      box-shadow: 0 2px 8px rgb(0 0 0 / .35);
-      animation: advFloat 2.6s ease-in-out infinite;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .adv-spot.is-solved { color: #14532d; }
-    .adv-spot.is-solved .adv-icondisc { background: rgb(74 222 128 / .65); box-shadow: 0 0 0 3px rgb(34 197 94 / .6); }
-    .adv-spot.is-solved .adv-icondisc::before { animation: none; opacity: 0; }
-    .adv-badge--ok { background: #22c55e; color: #052e16; animation: none; padding: .3em; }
-    .adv-badge--ok svg { width: 1.2em; height: 1.2em; fill: currentColor; }
+    {{/* HINT BAR */}}
+    <div class="adv-hint-bar" id="adv-hint-text"></div>
 
-    @keyframes advPing {
-      0%   { transform: scale(.82); opacity: .7; }
-      70%  { transform: scale(1.4); opacity: 0; }
-      100% { transform: scale(1.4); opacity: 0; }
-    }
-    @keyframes advFloat {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-3px); }
-    }
+    {{/* INVENTORY BAR */}}
+    <footer class="adv-inventory-bar">
+      <div class="adv-inventory-label">
+        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-current"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/></svg>
+        <span id="adv-inv-label">INVENTORY</span>
+      </div>
+      <div class="adv-inventory-slots" id="adv-inventory-slots">
+        <div class="adv-inventory-empty" id="adv-inv-empty"></div>
+      </div>
+    </footer>
 
-    /* ---------------------------------------------------------------- */
-    /* HUD (top bar)                                                    */
-    /* ---------------------------------------------------------------- */
-    .adv-hud {
-      position: absolute;
-      top: .7rem;
-      left: .7rem;
-      right: .7rem;
-      z-index: 15;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .5rem;
-      pointer-events: none;
-    }
-    .adv-hud-title {
-      font-size: clamp(.6rem, 2vw, .85rem);
-      font-weight: 700;
-      letter-spacing: .03em;
-      padding: .35rem .7rem;
-      border-radius: 999px;
-      background: rgb(15 23 42 / .65);
-      color: #fff;
-      backdrop-filter: blur(4px);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .adv-hud-dots { display: flex; gap: .35rem; }
-    .adv-dot {
-      width: .7rem;
-      height: .7rem;
-      border-radius: 50%;
-      background: rgb(255 255 255 / .35);
-      box-shadow: 0 1px 4px rgb(0 0 0 / .3);
-      transition: background .3s ease;
-    }
-    .adv-dot.is-current { background: #fbbf24; box-shadow: 0 0 10px rgb(251 191 36 / .85); }
-    .adv-dot.is-done { background: #22c55e; box-shadow: 0 0 8px rgb(34 197 94 / .8); }
+    {{/* PROFESSIONAL STORY DIALOG */}}
+    <section id="adv-dialog" class="adv-dialog-panel" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="adv-dialog-box">
+        <button type="button" id="adv-dialog-close" class="adv-dialog-close-btn" aria-label="Close">✕</button>
+        <div class="adv-dialog-header">
+          <div class="adv-dialog-badge">
+            <span class="adv-dialog-icon" id="adv-dialog-icon"></span>
+            <span class="adv-spot-title" id="adv-dialog-spot-title"></span>
+          </div>
+          <span class="adv-station-tag" id="adv-dialog-station-tag"></span>
+        </div>
+        <p class="adv-dialog-text" id="adv-dialog-text"></p>
+        <div class="adv-dialog-footer">
+          <button type="button" id="adv-dialog-action-btn" class="adv-btn-action" hidden></button>
+        </div>
+      </div>
+    </section>
 
-    .adv-hint {
-      position: absolute;
-      left: .7rem;
-      bottom: .7rem;
-      z-index: 15;
-      font-size: clamp(.55rem, 1.8vw, .75rem);
-      font-weight: 500;
-      padding: .3rem .6rem;
-      border-radius: 999px;
-      background: rgb(15 23 42 / .55);
-      color: #e2e8f0;
-      backdrop-filter: blur(4px);
-      pointer-events: none;
-    }
-
-    /* ---------------------------------------------------------------- */
-    /* Dialog box (RPG style, bottom of the scene)                      */
-    /* ---------------------------------------------------------------- */
-    .adv-dialog {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 20;
-      padding: .9rem;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(100%);
-      transition: transform .32s cubic-bezier(.2, .9, .3, 1.1), opacity .32s ease;
-    }
-    .adv-dialog.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
-    .adv-dialog-box {
-      position: relative;
-      padding: .85rem 2.6rem .9rem .95rem;
-      border-radius: .9rem;
-      background: rgb(2 6 23 / .92);
-      color: #f1f5f9;
-      border: 1px solid rgb(255 255 255 / .15);
-      box-shadow: 0 -10px 30px rgb(0 0 0 / .4);
-      backdrop-filter: blur(8px);
-    }
-    .adv-dialog-char {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      font-size: clamp(.65rem, 2vw, .85rem);
-      font-weight: 800;
-      letter-spacing: .03em;
-      color: #93c5fd;
-      text-transform: uppercase;
-      margin-bottom: .35rem;
-    }
-    .adv-dialog-char svg { width: 1.3em; height: 1.3em; fill: currentColor; }
-    .adv-dialog-text {
-      margin: 0;
-      font-size: clamp(.8rem, 2.6vw, 1rem);
-      line-height: 1.6;
-      min-height: 1.6em;
-      color: #f8fafc;
-    }
-    .adv-caret {
-      display: inline-block;
-      width: .55em;
-      height: 1.05em;
-      margin-left: .1em;
-      vertical-align: text-bottom;
-      background: currentColor;
-      animation: advBlink .8s steps(1) infinite;
-    }
-    @keyframes advBlink { 50% { opacity: 0; } }
-    .adv-dialog-close {
-      position: absolute;
-      top: .45rem;
-      right: .45rem;
-      width: 1.7rem;
-      height: 1.7rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 0;
-      border-radius: 999px;
-      background: rgb(255 255 255 / .12);
-      color: #cbd5e1;
-      cursor: pointer;
-      font-size: .8rem;
-      line-height: 1;
-      transition: background .2s ease;
-    }
-    .adv-dialog-close:hover { background: rgb(255 255 255 / .25); color: #fff; }
-    .adv-dialog-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      margin-top: .7rem;
-      padding: .5rem 1.1rem;
-      border: 0;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #6366f1, #8b5cf6);
-      color: #fff;
-      font-size: clamp(.72rem, 2.2vw, .9rem);
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgb(99 102 241 / .45);
-      transition: filter .2s ease, transform .15s ease;
-    }
-    .adv-dialog-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    .adv-dialog-btn:active { transform: translateY(1px); }
-
-    #adventure-root .adv-noscript {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      text-align: center;
-      color: #94a3b8;
-      font-size: .9rem;
-    }
-
-    @media (max-width: 560px) {
-      .adv-dialog { padding: .6rem; }
-      .adv-dialog-box { padding: .7rem 2.2rem .75rem .75rem; }
-      .adv-hint { display: none; }
-      .adv-spot small { font-size: .45em; padding: .2em .4em; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #adventure-root *, #adventure-root *::before, #adventure-root *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
-
-  {{/* Level 1 — The Lab */}}
-  <div class="adv-level adv-level--lab is-active" data-level="1" aria-hidden="false">
-    <div class="adv-deco" style="left:6%; top:14%; color:#2563eb" aria-hidden="true" data-icon="dna"></div>
-    <div class="adv-deco" style="left:16%; top:56%; color:#7c3aed" aria-hidden="true" data-icon="vial"></div>
-    <div class="adv-deco" style="left:72%; top:16%; color:#0891b2" aria-hidden="true" data-icon="flask"></div>
-    <div class="adv-deco" style="left:90%; top:56%; color:#0ea5e9" aria-hidden="true" data-icon="biohazard"></div>
   </div>
+</div>
 
-  {{/* Level 2 — The Valley of Chaos */}}
-  <div class="adv-level adv-level--chaos" data-level="2" aria-hidden="true">
-    <div class="adv-deco" style="left:8%; top:12%; color:#b45309; transform:rotate(-12deg)" aria-hidden="true" data-icon="sticky-note"></div>
-    <div class="adv-deco" style="left:35%; top:7%; color:#a16207; transform:rotate(8deg)" aria-hidden="true" data-icon="sticky-note"></div>
-    <div class="adv-deco" style="left:12%; top:40%; color:#92400e" aria-hidden="true" data-icon="envelope"></div>
-    <div class="adv-deco" style="left:88%; top:14%; color:#78350f; transform:rotate(18deg)" aria-hidden="true" data-icon="paper-plane"></div>
-    <div class="adv-deco" style="left:52%; top:62%; color:#b45309; transform:rotate(-6deg)" aria-hidden="true" data-icon="sticky-note"></div>
-  </div>
+<style>
+  /* Base Scoped Styles */
+  .adv-wrapper {
+    position: relative;
+    max-width: 860px;
+    margin: 1.5rem auto;
+    font-family: inherit;
+    user-select: none;
+  }
+  .adv-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    min-height: 480px;
+    background: #090d16;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+  .adv-frame * { box-sizing: border-box; }
 
-  {{/* Level 3 — Command Center */}}
-  <div class="adv-level adv-level--neon" data-level="3" aria-hidden="true">
-    <div class="adv-deco" style="left:8%; top:58%; color:#6366f1" aria-hidden="true" data-icon="server"></div>
-    <div class="adv-deco" style="left:88%; top:12%; color:#22d3ee" aria-hidden="true" data-icon="shield"></div>
-    <div class="adv-deco" style="left:14%; top:12%; color:#facc15" aria-hidden="true" data-icon="bolt"></div>
-    <div class="adv-deco" style="left:86%; top:60%; color:#a78bfa" aria-hidden="true" data-icon="wifi"></div>
-    <div class="adv-deco" style="left:48%; top:9%; color:#818cf8" aria-hidden="true" data-icon="database"></div>
-  </div>
+  /* CRT Scanline Effect */
+  .adv-crt-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+    background-size: 100% 3px, 6px 100%;
+  }
+  .adv-crt-active .adv-crt-layer { opacity: 1; }
 
-  {{/* HUD */}}
-  <header class="adv-hud">
-    <span class="adv-hud-title" data-hud-title></span>
-    <span class="adv-hud-dots">
-      <span class="adv-dot is-current" data-dot></span>
-      <span class="adv-dot" data-dot></span>
-      <span class="adv-dot" data-dot></span>
-    </span>
-  </header>
-  <div class="adv-hint" data-hint></div>
+  /* Top HUD */
+  .adv-top-hud {
+    position: relative;
+    z-index: 25;
+    height: 44px;
+    padding: 0.5rem 0.85rem;
+    background: rgba(10, 15, 29, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .adv-hud-level-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .adv-hud-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .adv-hud-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .adv-hud-dot.is-active { background: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+  .adv-hud-dot.is-solved { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
 
-  {{/* RPG dialog box */}}
-  <section class="adv-dialog" data-dialog role="dialog" aria-modal="true" aria-label="{{ $dialogAria }}" aria-hidden="true">
-    <div class="adv-dialog-box">
-      <button type="button" class="adv-dialog-close" data-dialog-close aria-label="{{ $close }}">✕</button>
-      <div class="adv-dialog-char" data-dialog-char></div>
-      <p class="adv-dialog-text" data-dialog-text aria-live="polite"></p>
-      <button type="button" class="adv-dialog-btn" data-dialog-btn hidden></button>
-    </div>
-  </section>
+  .adv-hud-controls {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .adv-pill-btn {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .adv-pill-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
 
-  <noscript>
-    <div class="adv-noscript">{{ $noscript }}</div>
-  </noscript>
+  /* Viewport & Scenes */
+  .adv-viewport {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+  .adv-scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .adv-scene.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
 
-  <script type="application/json" id="adv-data">{{ $data | jsonify | safeJS }}</script>
+  /* Station Background Visuals */
+  .adv-scene--mycelium {
+    background-image: url('/adventure/station1_mycelium.jpg');
+    background-color: #022c22;
+  }
+  .adv-scene--bioinfo {
+    background-image: url('/adventure/station2_bioinfo.jpg');
+    background-color: #0f172a;
+  }
+  .adv-scene--mobile {
+    background-image: url('/adventure/station3_mobile.jpg');
+    background-color: #030712;
+  }
+  .adv-scene--bundesbank {
+    background-image: url('/adventure/station4_bundesbank.jpg');
+    background-color: #081427;
+  }
 
-  <script>
-    (function () {
-      'use strict';
-      var root = document.getElementById('adventure-root');
-      if (!root) { return; }
+  /* Subtle Scene Lighting Vignette */
+  .adv-scene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+  }
 
-      var dataEl = document.getElementById('adv-data');
-      if (!dataEl) { return; }
-      var data = JSON.parse(dataEl.textContent);
+  /* Hotspots */
+  .adv-hotspots-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+  }
+  .adv-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    outline: none;
+  }
+  .adv-hotspot-disc {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .adv-hotspot-disc svg { width: 24px; height: 24px; fill: currentColor; }
+  .adv-hotspot:hover .adv-hotspot-disc,
+  .adv-hotspot:focus-visible .adv-hotspot-disc {
+    transform: scale(1.18);
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+  }
+  .adv-hotspot.is-target .adv-hotspot-disc {
+    border-color: #f59e0b;
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+  }
+  .adv-hotspot.is-solved .adv-hotspot-disc {
+    border-color: #22c55e;
+    color: #4ade80;
+  }
+  .adv-hotspot-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #f8fafc;
+    background: rgba(15, 23, 42, 0.92);
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
 
-      // Embedded, accessible inline SVGs (Zero external CDN calls, 100% GDPR compliant)
-      var ICONS = {
-        microscope: '<svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 0-4 4v4H6v2h2v4a4 4 0 0 0 4 4h5a1 1 0 1 0 0-2h-5a2 2 0 0 1-2-2v-4h2.5a3.5 3.5 0 0 0 3.5-3.5V6a4 4 0 0 0-4-4zm0 2a2 2 0 0 1 2 2v4.5a1.5 1.5 0 0 1-1.5 1.5H10V6a2 2 0 0 1 2-2zM4 20h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2z"/></svg>',
-        flask: '<svg viewBox="0 0 24 24"><path d="M9 2v2h1v4.184L4.17 19.846A2 2 0 0 0 5.83 23h12.34a2 2 0 0 0 1.66-3.154L14 8.184V4h1V2H9zm3 8.355 4.8 9.645H7.2L12 10.355z"/></svg>',
-        database: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/><path d="M3 11v6c0 1.657 4.03 3 9 3s9-1.343 9-3v-6"/><path d="M3 17v2c0 1.657 4.03 3 9 3s9-1.343 9-3v-2"/></svg>',
-        question: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
-        'sticky-note': '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/></svg>',
-        chalkboard: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 11h4"/><path d="M14 11h3"/></svg>',
-        server: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="2"/><rect x="2" y="11" width="20" height="6" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="14" r="1"/></svg>',
-        'chart-line': '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
-        terminal: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m7 9 3 3-3 3"/><path d="M13 15h4"/></svg>',
-        dna: '<svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="M17 6l-2.5 2.5"/><path d="M14 8l-1 1"/><path d="M7 18l2.5-2.5"/><path d="M3.5 14.5l.5.5"/><path d="M20 9.5l.5.5"/></svg>',
-        vial: '<svg viewBox="0 0 24 24"><path d="M6 2h12v2H6z"/><path d="M7 4v13a5 5 0 0 0 10 0V4"/><path d="M7 11h10"/></svg>',
-        biohazard: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 4a5 5 0 0 0-4.33 2.5A5 5 0 0 1 12 9a5 5 0 0 1 4.33-2.5A5 5 0 0 0 12 4z"/><path d="M6.8 19a5 5 0 0 0 5-1.5 5 5 0 0 1-2.17-4.5A5 5 0 0 1 5.3 14 5 5 0 0 0 6.8 19z"/><path d="M17.2 19a5 5 0 0 0 1.5-5 5 5 0 0 1-4.33-1 5 5 0 0 1-2.17 4.5 5 5 0 0 0 5 1.5z"/></svg>',
-        envelope: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
-        'paper-plane': '<svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
-        shield: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-        bolt: '<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
-        wifi: '<svg viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>',
-        check: '<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'
-      };
+  /* Hotspot Pulsing Glow */
+  .adv-hotspot-disc::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(56, 189, 248, 0.5);
+    animation: advPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .adv-hotspot.is-solved .adv-hotspot-disc::before { display: none; }
+  @keyframes advPing {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    70%, 100% { transform: scale(1.4); opacity: 0; }
+  }
 
-      function getIcon(name) {
-        return ICONS[name] || '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>';
-      }
+  /* Hint Bar */
+  .adv-hint-bar {
+    position: relative;
+    z-index: 15;
+    background: rgba(15, 23, 42, 0.92);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    text-align: center;
+    font-weight: 500;
+  }
 
-      // Populate decorative background icons
-      root.querySelectorAll('.adv-deco[data-icon]').forEach(function (el) {
-        el.innerHTML = getIcon(el.getAttribute('data-icon'));
-      });
+  /* Inventory Bar */
+  .adv-inventory-bar {
+    position: relative;
+    z-index: 20;
+    background: #0b1120;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.5rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 56px;
+  }
+  .adv-inventory-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+  }
+  .adv-inventory-slots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    overflow-x: auto;
+  }
+  .adv-inventory-empty {
+    font-size: 0.72rem;
+    color: #475569;
+    font-style: italic;
+  }
+  .adv-inv-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.5rem;
+    padding: 0.35rem 0.65rem;
+    color: #f1f5f9;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .adv-inv-item:hover {
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.18);
+  }
+  .adv-inv-item.is-selected {
+    border-color: #38bdf8;
+    background: #0284c7;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+  }
+  .adv-inv-item svg { width: 16px; height: 16px; fill: currentColor; }
 
-      var current = 0;
-      var solved = [false, false, false];
-      var levels = root.querySelectorAll('.adv-level');
-      var dots = root.querySelectorAll('[data-dot]');
-      var hudTitle = root.querySelector('[data-hud-title]');
-      var hint = root.querySelector('[data-hint]');
-      var dialog = root.querySelector('[data-dialog]');
-      var dialogChar = root.querySelector('[data-dialog-char]');
-      var dialogText = root.querySelector('[data-dialog-text]');
-      var dialogBtn = root.querySelector('[data-dialog-btn]');
-      var closeBtn = root.querySelector('[data-dialog-close]');
+  /* Dialog Panel */
+  .adv-dialog-panel {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 30;
+    padding: 0.75rem;
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.28s ease;
+  }
+  .adv-dialog-panel.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  .adv-dialog-box {
+    position: relative;
+    background: rgba(11, 17, 32, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.85rem;
+    padding: 0.9rem 1.1rem;
+    color: #f8fafc;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+  }
+  .adv-dialog-close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+  .adv-dialog-close-btn:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
 
-      hint.textContent = data.hint;
+  .adv-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding-right: 1.5rem;
+  }
+  .adv-dialog-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .adv-dialog-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38bdf8;
+  }
+  .adv-dialog-icon svg { width: 100%; height: 100%; fill: currentColor; }
+  .adv-spot-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #f8fafc;
+  }
+  .adv-station-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+  }
+  .adv-dialog-text {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+    margin: 0;
+  }
+  .adv-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.6rem;
+  }
+  .adv-btn-action, .adv-btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+    transition: filter 0.15s ease, transform 0.15s ease;
+    text-decoration: none;
+  }
+  .adv-btn-action:hover, .adv-btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .adv-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .adv-btn-secondary:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
 
-      var typing = { node: null, text: '' };
-      var typer = null;
+  /* Victory Card */
+  .adv-victory-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 35;
+    background: rgba(9, 13, 22, 0.94);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .adv-victory-card {
+    text-align: center;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .adv-victory-icon-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(2, 132, 199, 0.2);
+    border: 2px solid #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38bdf8;
+  }
+  .adv-victory-icon-badge svg { width: 36px; height: 36px; fill: currentColor; }
+  .adv-victory-heading {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin: 0;
+  }
+  .adv-victory-desc {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: #cbd5e1;
+    margin: 0;
+  }
+  .adv-victory-actions {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
 
-      function render() {
-        levels.forEach(function (l, i) {
-          var active = i === current;
-          l.classList.toggle('is-active', active);
-          l.setAttribute('aria-hidden', !active);
-        });
-        hudTitle.textContent = data.levels[current].title;
-        dots.forEach(function (d, i) {
-          d.classList.toggle('is-done', !!solved[i]);
-          d.classList.toggle('is-current', i === current && !solved[i]);
-        });
-      }
+  @media (max-width: 600px) {
+    .adv-frame { aspect-ratio: auto; min-height: 520px; }
+    .adv-dialog-panel { padding: 0.4rem; }
+    .adv-dialog-box { padding: 0.65rem 0.75rem; }
+  }
+</style>
 
-      function stopType() {
-        if (typer) { clearInterval(typer); typer = null; }
-        if (typing.node) {
-          var caret = typing.node.querySelector('.adv-caret');
-          if (caret) { caret.remove(); }
-          typing.node.textContent = typing.text;
-        }
-        typing.node = null;
-        typing.text = '';
-      }
+<script>
+  (function () {
+    'use strict';
+    var container = document.getElementById('adventure-container');
+    if (!container) return;
 
-      function typeText(node, text) {
-        stopType();
-        typing.node = node;
-        typing.text = text;
-        var caret = document.createElement('span');
-        caret.className = 'adv-caret';
-        caret.setAttribute('aria-hidden', 'true');
-        node.textContent = '';
-        node.appendChild(caret);
-        var i = 0;
-        typer = setInterval(function () {
-          caret.insertAdjacentText('beforebegin', text.charAt(i));
-          i++;
-          if (i >= text.length) { stopType(); }
-        }, 13);
-      }
+    var lang = container.getAttribute('data-lang') || 'de';
+    var cvUrl = container.getAttribute('data-cv-url') || '/de/erfahrung/';
 
-      function openDialog(spot) {
-        dialogChar.innerHTML = getIcon(spot.icon) + '<span>' + spot.label + '</span>';
-        typeText(dialogText, spot.text);
-        if (spot.type === 'quest') {
-          dialogBtn.textContent = spot.btn;
-          dialogBtn.hidden = false;
-        } else {
-          dialogBtn.hidden = true;
-        }
-        dialog.classList.add('is-open');
-        dialog.setAttribute('aria-hidden', 'false');
-      }
-
-      function closeDialog() {
-        stopType();
-        dialog.classList.remove('is-open');
-        dialog.setAttribute('aria-hidden', 'true');
-      }
-
-      function onSpot(idx, spot) {
-        openDialog(spot);
-      }
-
-      function build(levelEl, idx, levelData) {
-        levelData.hotspots.forEach(function (spot) {
-          var b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'adv-spot' + (spot.type === 'quest' ? ' is-quest' : '');
-          b.style.left = spot.x + '%';
-          b.style.top = spot.y + '%';
-          b.setAttribute('aria-label', spot.label);
-          var badge = spot.type === 'quest'
-            ? '<span class="adv-badge">' + data.questBadge + '</span>'
-            : '';
-          b.innerHTML = '<span class="adv-icondisc">' + getIcon(spot.icon) + badge + '</span><small>' + spot.label + '</small>';
-          b.addEventListener('click', function () { onSpot(idx, spot); });
-          levelEl.appendChild(b);
-        });
-      }
-
-      data.levels.forEach(function (levelData, idx) {
-        build(levels[idx], idx, levelData);
-      });
-
-      dialogBtn.addEventListener('click', function () {
-        solved[current] = true;
-        var q = levels[current].querySelector('.adv-spot.is-quest');
-        if (q) {
-          q.classList.add('is-solved');
-          var badge = q.querySelector('.adv-badge');
-          if (badge) {
-            badge.className = 'adv-badge adv-badge--ok';
-            badge.innerHTML = getIcon('check');
+    // =========================================================================
+    // LOCALIZED CAREER STATIONS & GAME DATA (4 STATIONS)
+    // =========================================================================
+    var GAME_DATA = {
+      de: {
+        soundOn: "Sound: AN",
+        soundOff: "Sound: AUS",
+        crtOn: "CRT: AN",
+        crtOff: "CRT: AUS",
+        inventoryLabel: "INVENTAR",
+        inventoryEmpty: "Noch leer. Erkunde die Station!",
+        close: "Schließen",
+        restart: "Nochmal spielen",
+        fullCv: "Zum vollständigen Lebenslauf",
+        victoryTitle: "Werdegang erfolgreich erkundet!",
+        victoryText: "Vom UFZ-Biochemielabor über Bioinformatik-Pipelines und native App-Entwicklung bis zur IT-Koordination bei der Deutschen Bundesbank.",
+        levels: [
+          {
+            id: 1,
+            name: "Station 1",
+            title: "Station 1 · Labor & Myzel-Forschung · UFZ & Uni Leipzig",
+            tag: "Biochemie",
+            hint: "Erforsche die Pilzkulturen und extrahiere das biochemische Probenprotokoll.",
+            items: [
+              { id: "mycelium_doc", name: "Myzel-Probenprotokoll", icon: "flask", desc: "Enthält Chemotaxis- und Wachstumsdaten der Pilzkulturen." }
+            ],
+            hotspots: [
+              { id: "mycelium", icon: "mushroom", label: "Pilzmyzel-Kulturen", x: 48, y: 72, type: "flavor",
+                text: "Pilzmyzel-Kulturen auf Agar-Nährböden: Das dichte Hyphennetzwerk reagiert auf chemische Reize und wächst entlang definierter Gradienten." },
+              { id: "microscope", icon: "microscope", label: "Labor-Mikroskop", x: 68, y: 68, type: "flavor",
+                text: "Optische Analyse der Myzel-Dichte und Zellkinetik im Rahmen der Chemotaxis-Assays." },
+              { id: "sample_rack", icon: "flask", label: "Reagenzgläser & Pipetten", x: 34, y: 65, type: "pickup", givesItem: "mycelium_doc",
+                text: "Die biochemischen Versuchsreihen sind abgeschlossen! Eine Fülle manueller Messdaten liegt vor.",
+                btn: "Protokoll aufnehmen" },
+              { id: "analysis_desk", icon: "dna", label: "Auswertungs-Terminal", x: 92, y: 52, type: "target", requiresItem: "mycelium_doc",
+                text: "Wartet auf Messdaten. Die manuelle Auswertung stößt an Kapazitätsgrenzen – computergestützte Methoden sind erforderlich!",
+                solvedText: "Daten erfolgreich integriert! Die Brücke zu Bioinformatik und Programmierung ist geschlagen.",
+                btn: "Weiter zur Bioinformatik" }
+            ]
+          },
+          {
+            id: 2,
+            name: "Station 2",
+            title: "Station 2 · Bioinformatik & Bienen-Genom · Uni Leipzig",
+            tag: "Bioinformatik",
+            hint: "Analysiere das Genom der Honigbiene (Apis mellifera) mit Python-Pipelines.",
+            items: [
+              { id: "bee_pipeline", name: "Python-Genom-Pipeline", icon: "terminal", desc: "Automatisierte Next-Generation Sequencing Pipeline." }
+            ],
+            hotspots: [
+              { id: "bee_genome", icon: "bee", label: "Honigbienen-Genom", x: 70, y: 44, type: "flavor",
+                text: "Forschung am Genom der Honigbiene (Apis mellifera): Untersuchung nicht-codierender RNAs und genetischer Regulationsmuster." },
+              { id: "phylo_align", icon: "dna", label: "Sequenz-Alignments", x: 50, y: 44, type: "flavor",
+                text: "Phylogenetische Stammbäume und evolutionäre Genomanalysen auf Basis umfangreicher NGS-Datensätze." },
+              { id: "python_terminal", icon: "terminal", label: "Python-Entwicklung", x: 30, y: 44, type: "pickup", givesItem: "bee_pipeline",
+                text: "Erster tiefer Einstieg in die Computerwissenschaften: Du entwickelst automatisierte Auswertungs-Pipelines in Python.",
+                btn: "Pipeline kompilieren" },
+              { id: "compute_cluster", icon: "database", label: "Compute Node", x: 64, y: 80, type: "target", requiresItem: "bee_pipeline",
+                text: "Wartet auf die Ausführungs-Pipeline zur Verarbeitung der Bienen-Sequenzierungsdaten.",
+                solvedText: "Pipeline erfolgreich gerechnet! Die Masterarbeit ist vollendet – die Leidenschaft für reine Softwareentwicklung geweckt.",
+                btn: "Weiter zur Softwareentwicklung" }
+            ]
+          },
+          {
+            id: 3,
+            name: "Station 3",
+            title: "Station 3 · Mobile App-Entwicklung & MedTech · Preventicus",
+            tag: "Mobile Dev",
+            hint: "Entwickle native Android-Architektur zur präzisen Pulswellen-Diagnostik.",
+            items: [
+              { id: "android_release", name: "Android-Heartbeats-Build", icon: "mobile", desc: "Validiertes Medizinprodukt-Release für Android." }
+            ],
+            hotspots: [
+              { id: "heartbeat_sensor", icon: "heartbeat", label: "PPG-Biosignale", x: 24, y: 70, type: "flavor",
+                text: "Plethysmographische Pulswellen-Signale aus der Smartphone-Kamera zur Früherkennung kardiovaskulärer Auffälligkeiten." },
+              { id: "scrum_board", icon: "chalkboard", label: "Agiles Scrum-Board", x: 18, y: 30, type: "flavor",
+                text: "Sprint-Planning, Code-Reviews und agile Zusammenarbeit im interdisziplinären MedTech-Team." },
+              { id: "android_studio", icon: "mobile", label: "Android Studio IDE", x: 48, y: 52, type: "pickup", givesItem: "android_release",
+                text: "Native Android-Entwicklung: Du programmierst performante Sensor- und UI-Module für die Heartbeats-App.",
+                btn: "Release-Build erstellen" },
+              { id: "ci_deploy", icon: "code", label: "CI/CD & Deployment", x: 62, y: 52, type: "target", requiresItem: "android_release",
+                text: "Wartet auf das finale Android-Paket für den automatisierten Test- und Freigabeprozess.",
+                solvedText: "Medizinprodukt erfolgreich ausgeliefert! Fundierte Praxiserfahrung in nativer App-Entwicklung und agilen Methoden.",
+                btn: "Weiter zur Deutschen Bundesbank" }
+            ]
+          },
+          {
+            id: 4,
+            name: "Station 4",
+            title: "Station 4 · IT-Koordination & Atlassian Strategy · Deutsche Bundesbank",
+            tag: "Bundesbank IT",
+            hint: "Koordiniere externe Dienstleister und etabliere die unternehmensweite Atlassian-Plattform.",
+            items: [],
+            hotspots: [
+              { id: "bundesbank_core", icon: "landmark", label: "Bundesbank IT-Architektur", x: 22, y: 38, type: "flavor",
+                text: "Deutsche Bundesbank IT: Strategische IT-Arbeitsplatz-Apps, Requirements Engineering und sichere Enterprise-Lösungen." },
+              { id: "provider_mgmt", icon: "users", label: "Provider-Management", x: 63, y: 68, type: "flavor",
+                text: "Steuerung externer Dienstleister, Definition von Service Level Agreements (SLAs) und Stakeholder-Alignment." },
+              { id: "atlassian_hub", icon: "ticket", label: "Atlassian Cloud Strategy", x: 34, y: 68, type: "flavor",
+                text: "Strategischer Ausbau von Jira und Confluence, Quality Engineering und Einführung moderner agiler Arbeitsweisen." },
+              { id: "master_console", icon: "chart-line", label: "SLA & Operations Monitor", x: 85, y: 35, type: "quest",
+                text: "Zentrale Koordinationskonsole: Alle Anforderungen synchronisiert, Dienstleister gesteuert und Atlassian-Suite optimiert.",
+                btn: "Mission abschließen" }
+            ]
           }
-        }
-        render();
-        if (current === data.levels.length - 1) {
-          window.location.href = data.home;
+        ]
+      },
+      en: {
+        soundOn: "Sound: ON",
+        soundOff: "Sound: OFF",
+        crtOn: "CRT: ON",
+        crtOff: "CRT: OFF",
+        inventoryLabel: "INVENTORY",
+        inventoryEmpty: "No items yet. Explore the station!",
+        close: "Close",
+        restart: "Play Again",
+        fullCv: "View Full CV",
+        victoryTitle: "Career Journey Completed!",
+        victoryText: "From the UFZ biochemistry lab and genomic bioinformatics to native mobile development and IT coordination at Deutsche Bundesbank.",
+        levels: [
+          {
+            id: 1,
+            name: "Station 1",
+            title: "Station 1 · Lab & Mycelium Research · UFZ & Leipzig University",
+            tag: "Biochemistry",
+            hint: "Explore fungal cultures and extract the biochemical sample protocol.",
+            items: [
+              { id: "mycelium_doc", name: "Mycelium Protocol", icon: "flask", desc: "Contains chemotaxis and fungal growth data." }
+            ],
+            hotspots: [
+              { id: "mycelium", icon: "mushroom", label: "Fungal Mycelium", x: 48, y: 72, type: "flavor",
+                text: "Fungal mycelium on agar medium: Dense hyphal networks reacting to chemical gradients during chemotaxis assays." },
+              { id: "microscope", icon: "microscope", label: "Lab Microscope", x: 68, y: 68, type: "flavor",
+                text: "Optical analysis of mycelial density and germination dynamics." },
+              { id: "sample_rack", icon: "flask", label: "Test Tubes & Pipettes", x: 34, y: 65, type: "pickup", givesItem: "mycelium_doc",
+                text: "Biochemical testing completed! A wealth of experimental data is gathered.",
+                btn: "Take Protocol" },
+              { id: "analysis_desk", icon: "dna", label: "Analysis Terminal", x: 92, y: 52, type: "target", requiresItem: "mycelium_doc",
+                text: "Awaiting experimental data. Manual processing reaches its limits – computational analytics needed!",
+                solvedText: "Data integrated! The foundation for bioinformatics and computational science is laid.",
+                btn: "Advance to Bioinformatics" }
+            ]
+          },
+          {
+            id: 2,
+            name: "Station 2",
+            title: "Station 2 · Bioinformatics & Honeybee Genome · Leipzig University",
+            tag: "Bioinformatics",
+            hint: "Analyze the honeybee (Apis mellifera) genome using Python pipelines.",
+            items: [
+              { id: "bee_pipeline", name: "Python Genome Pipeline", icon: "terminal", desc: "Automated Next-Generation Sequencing pipeline." }
+            ],
+            hotspots: [
+              { id: "bee_genome", icon: "bee", label: "Honeybee Genome", x: 70, y: 44, type: "flavor",
+                text: "Honeybee (*Apis mellifera*) genomics: Research on non-coding RNAs and complex regulatory networks." },
+              { id: "phylo_align", icon: "dna", label: "Sequence Alignments", x: 50, y: 44, type: "flavor",
+                text: "Phylogenetic trees and evolutionary genomic alignments based on high-throughput NGS datasets." },
+              { id: "python_terminal", icon: "terminal", label: "Python Development", x: 30, y: 44, type: "pickup", givesItem: "bee_pipeline",
+                text: "First deep dive into computer science: Writing automated data processing pipelines in Python.",
+                btn: "Compile Pipeline" },
+              { id: "compute_cluster", icon: "database", label: "Compute Node", x: 64, y: 80, type: "target", requiresItem: "bee_pipeline",
+                text: "Awaiting execution pipeline for high-throughput genomic data processing.",
+                solvedText: "Pipeline computed! Master thesis completed and passion for software engineering ignited.",
+                btn: "Advance to Software Dev" }
+            ]
+          },
+          {
+            id: 3,
+            name: "Station 3",
+            title: "Station 3 · Mobile App Dev & MedTech · Preventicus",
+            tag: "Mobile Dev",
+            hint: "Build the native Android architecture for reliable pulse wave diagnostics.",
+            items: [
+              { id: "android_release", name: "Heartbeats Android Build", icon: "mobile", desc: "Certified medical app release for Android." }
+            ],
+            hotspots: [
+              { id: "heartbeat_sensor", icon: "heartbeat", label: "PPG Biosignals", x: 24, y: 70, type: "flavor",
+                text: "Photoplethysmography (PPG) pulse wave signals captured via smartphone camera for cardiovascular screening." },
+              { id: "scrum_board", icon: "chalkboard", label: "Agile Scrum Board", x: 18, y: 30, type: "flavor",
+                text: "Sprint planning, code reviews, and cross-functional medtech teamwork." },
+              { id: "android_studio", icon: "mobile", label: "Android Studio IDE", x: 48, y: 52, type: "pickup", givesItem: "android_release",
+                text: "Native Android development: Building robust sensor and UI modules for the Heartbeats app.",
+                btn: "Build Release" },
+              { id: "ci_deploy", icon: "code", label: "CI/CD & Deployment", x: 62, y: 52, type: "target", requiresItem: "android_release",
+                text: "Awaiting final Android package for automated testing and certification pipeline.",
+                solvedText: "Medical product successfully shipped! Proven hands-on experience in mobile app development and agile delivery.",
+                btn: "Advance to Deutsche Bundesbank" }
+            ]
+          },
+          {
+            id: 4,
+            name: "Station 4",
+            title: "Station 4 · IT Coordination & Atlassian Strategy · Deutsche Bundesbank",
+            tag: "Central Bank IT",
+            hint: "Coordinate external providers and shape the enterprise Atlassian platform.",
+            items: [],
+            hotspots: [
+              { id: "bundesbank_core", icon: "landmark", label: "Bundesbank IT Architecture", x: 22, y: 38, type: "flavor",
+                text: "Deutsche Bundesbank IT: Enterprise workplace applications, requirements engineering, and secure solutions." },
+              { id: "provider_mgmt", icon: "users", label: "Provider Management", x: 63, y: 68, type: "flavor",
+                text: "Steering external IT vendors, managing Service Level Agreements (SLAs), and business alignment." },
+              { id: "atlassian_hub", icon: "ticket", label: "Atlassian Cloud Strategy", x: 34, y: 68, type: "flavor",
+                text: "Strategic evolution of Jira & Confluence, quality engineering, and agile workflow enablement." },
+              { id: "master_console", icon: "chart-line", label: "SLA & Operations Monitor", x: 85, y: 35, type: "quest",
+                text: "Master Coordination Console: Requirements aligned, providers managed, and Atlassian platform successfully established.",
+                btn: "Complete Mission" }
+            ]
+          }
+        ]
+      }
+    };
+
+    var DATA = GAME_DATA[lang] || GAME_DATA.de;
+
+    // =========================================================================
+    // REDESIGNED CRISP RETRO SVG ICONS (100% Inline, Zero External Assets)
+    // =========================================================================
+    var ICONS = {
+      mushroom: '<svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2.5 6.2 2 11.5c0 .6.4 1 1 1h4.2c.2 2.2.5 4.5 1.3 6.5-1.2.6-2.5 1-3.5 1.2a.8.8 0 1 0 .2 1.6c1.5-.2 3.2-.8 4.6-1.6.8 1.1 1.8 1.8 2.2 1.8s1.4-.7 2.2-1.8c1.4.8 3.1 1.4 4.6 1.6a.8.8 0 1 0 .2-1.6c-1-.2-2.3-.6-3.5-1.2.8-2 1.1-4.3 1.3-6.5H21c.6 0 1-.4 1-1C21.5 6.2 17.5 2 12 2zm-4.5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-4.5 4a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6z"/></svg>',
+      bee: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="4.5" ry="6.5"/><path d="M7.8 11.5h8.4M7.5 14h9M8 16.5h8" stroke="#090d16" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="6" r="3.2"/><circle cx="10.5" cy="5.5" r=".7" fill="#090d16"/><circle cx="13.5" cy="5.5" r=".7" fill="#090d16"/><path d="M10.5 3.2 9 1.5M13.5 3.2 15 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M7.5 11C4 8.5 2 11 3.5 14.5c1.2 2.8 4 1.5 4-3.5zm9 0c3.5-2.5 5.5 0 4 3.5-1.2 2.8-4 1.5-4-3.5z" opacity=".7"/><path d="M12 20.5v2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      microscope: '<svg viewBox="0 0 24 24"><path d="M11 2h3a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1 7 1.5 3h-3L12 9zM5 13h9a1 1 0 1 0 0-2H5a1 1 0 1 0 0 2zm11-3.5c1.8.8 3 2.5 3 4.5 0 2.8-2.2 5-5 5H9.5v-2H14a3 3 0 0 0 3-3 3 3 0 0 0-1-2.2V9.5zM4 20h16a1.5 1.5 0 0 1 0 3H4a1.5 1.5 0 0 1 0-3z"/></svg>',
+      flask: '<svg viewBox="0 0 24 24"><path d="M10 2v3h4V2h2v3.2c0 .4.1.8.4 1.1l5.2 7.8A4 4 0 0 1 18.3 20H5.7a4 4 0 0 1-3.3-5.9l5.2-7.8c.3-.3.4-.7.4-1.1V2h2zm-2.8 9.5L5 15.8a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3L16.8 11.5H7.2zm3.8 2.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 2a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6z"/></svg>',
+      dna: '<svg viewBox="0 0 24 24"><path d="M3 5c5 0 8 4 10 7s5 7 8 7M3 19c5 0 8-4 10-7s5-7 8-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><line x1="6" y1="6.5" x2="6" y2="17.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="10" y1="9.2" x2="10" y2="14.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="9.2" x2="14" y2="14.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="18" y1="6.5" x2="18" y2="17.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+      terminal: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2.5"/><path d="m6 8 3 2.5-3 2.5M11 13h5M7 21h10M12 18v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>',
+      database: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5.5" rx="1.5"/><rect x="3" y="9.5" width="18" height="5.5" rx="1.5"/><rect x="3" y="16" width="18" height="5.5" rx="1.5"/><circle cx="6.5" cy="5.7" r="1" fill="#090d16"/><circle cx="6.5" cy="12.2" r="1" fill="#090d16"/><circle cx="6.5" cy="18.7" r="1" fill="#090d16"/><path d="M10 5.7h8M10 12.2h8M10 18.7h8" stroke="#090d16" stroke-width="1.4" stroke-linecap="round"/></svg>',
+      mobile: '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3"/><rect x="7" y="5" width="10" height="13" rx="1" fill="#090d16"/><path d="M8.5 11.5h1.5l1-2.5 1.5 5 1-3.5 1 1h1" stroke="#38bdf8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="12" cy="19.5" r=".75" fill="currentColor"/></svg>',
+      heartbeat: '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" opacity=".25"/><path d="M3 12h4l2-5 3 10 2.5-7 1.5 2h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
+      chalkboard: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2"/><path d="M8.5 3v15M15.5 3v15M2 7.5h20" stroke="currentColor" stroke-width="1.4"/><rect x="4" y="9.5" width="3" height="2" rx=".5" fill="currentColor"/><rect x="4" y="13" width="3" height="2" rx=".5" fill="currentColor"/><rect x="10.5" y="9.5" width="3.5" height="3" rx=".5" fill="currentColor"/><rect x="17.5" y="9.5" width="3" height="4" rx=".5" fill="currentColor"/><path d="M7 21h10M12 18v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      code: '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="10" r="2.5"/><path d="M6 8.5v7M6 12a5 5 0 0 0 5-5h4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>',
+      landmark: '<svg viewBox="0 0 24 24"><path d="M2 21h20v2H2zM3 19h18v1H3zm9-17L2 7v2h20V7L12 2zm0 2.5 4 1.5H8l4-1.5zM5 10h2.5v8H5zm5.5 0H13v8h-2.5zm6 0H19v8h-2.5z"/></svg>',
+      ticket: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 7h10M7 11h6M7 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M15 13l2.5 2.5L15 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
+      users: '<svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M6.5 17c0-3 2.5-5 5.5-5s5.5 2 5.5 5v2H6.5v-2z"/><circle cx="19.5" cy="8.5" r="2.2" opacity=".7"/><path d="M18.5 13.2c1.8.4 3.5 1.7 3.5 3.8v1.5h-3" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".7"/><circle cx="4.5" cy="8.5" r="2.2" opacity=".7"/><path d="M5.5 13.2c-1.8.4-3.5 1.7-3.5 3.8v1.5h3" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".7"/></svg>',
+      'chart-line': '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2.5"/><path d="M5 15l4-5 3.5 4 4.5-6.5 2 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="9" cy="10" r="1.2" fill="currentColor"/><circle cx="17" cy="7.5" r="1.2" fill="currentColor"/><path d="M6 18h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg>',
+      check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="m8 12 3 3 5.5-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>'
+    };
+
+    function getIcon(name) {
+      return ICONS[name] || '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>';
+    }
+
+    // Populate static text & icons
+    document.getElementById('adv-inv-label').textContent = DATA.inventoryLabel;
+    document.getElementById('adv-victory-badge').innerHTML = getIcon('landmark');
+    document.getElementById('adv-victory-title').textContent = DATA.victoryTitle;
+    document.getElementById('adv-victory-text').textContent = DATA.victoryText;
+    document.getElementById('adv-victory-cv-btn').textContent = DATA.fullCv + ' →';
+    document.getElementById('adv-btn-restart').textContent = DATA.restart;
+
+    // =========================================================================
+    // WEB AUDIO API SYNTHESIZER (100% Local, Zero Downloads)
+    // =========================================================================
+    var audioCtx = null;
+    var soundEnabled = false;
+
+    function initAudio() {
+      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(freq, type, duration, gainVal) {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      try {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal || 0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function sfxClick() { playTone(540, 'triangle', 0.06, 0.06); }
+    function sfxPickup() {
+      playTone(440, 'triangle', 0.08, 0.08);
+      setTimeout(function () { playTone(554, 'triangle', 0.08, 0.08); }, 70);
+      setTimeout(function () { playTone(659, 'triangle', 0.12, 0.09); }, 140);
+    }
+    function sfxLevelUp() {
+      var notes = [392, 523, 659, 784];
+      notes.forEach(function (n, i) {
+        setTimeout(function () { playTone(n, 'sine', 0.18, 0.1); }, i * 90);
+      });
+    }
+
+    // =========================================================================
+    // GAME STATE & INVENTORY
+    // =========================================================================
+    var currentLevelIdx = 0;
+    var solvedLevels = [false, false, false, false];
+    var inventory = [];
+    var activeItem = null;
+
+    var levelTitleEl = document.getElementById('adv-level-title');
+    var dotsContainer = document.getElementById('adv-dots');
+    var hintTextEl = document.getElementById('adv-hint-text');
+    var scenes = container.querySelectorAll('.adv-scene');
+    var hotspotsLayer = document.getElementById('adv-hotspots-layer');
+    var invSlotsContainer = document.getElementById('adv-inventory-slots');
+
+    var dialogPanel = document.getElementById('adv-dialog');
+    var dialogIcon = document.getElementById('adv-dialog-icon');
+    var dialogSpotTitle = document.getElementById('adv-dialog-spot-title');
+    var dialogStationTag = document.getElementById('adv-dialog-station-tag');
+    var dialogText = document.getElementById('adv-dialog-text');
+    var dialogActionBtn = document.getElementById('adv-dialog-action-btn');
+    var dialogCloseBtn = document.getElementById('adv-dialog-close');
+    var victoryLayer = document.getElementById('adv-victory');
+    var restartBtn = document.getElementById('adv-btn-restart');
+
+    // Controls
+    var btnSound = document.getElementById('adv-btn-sound');
+    var btnCrt = document.getElementById('adv-btn-crt');
+
+    btnSound.addEventListener('click', function () {
+      soundEnabled = !soundEnabled;
+      btnSound.textContent = soundEnabled ? '🔊' : '🔇';
+      btnSound.title = soundEnabled ? DATA.soundOn : DATA.soundOff;
+      if (soundEnabled) { sfxPickup(); }
+    });
+
+    btnCrt.addEventListener('click', function () {
+      var frame = document.getElementById('adventure-frame');
+      var active = frame.classList.toggle('adv-crt-active');
+      btnCrt.textContent = active ? DATA.crtOn : DATA.crtOff;
+      sfxClick();
+    });
+
+    function renderHUD() {
+      var cur = DATA.levels[currentLevelIdx];
+      levelTitleEl.textContent = cur.title;
+      hintTextEl.textContent = cur.hint;
+
+      // Render Dots
+      dotsContainer.innerHTML = '';
+      DATA.levels.forEach(function (lvl, i) {
+        var dot = document.createElement('div');
+        dot.className = 'adv-hud-dot' + (i === currentLevelIdx ? ' is-active' : '') + (solvedLevels[i] ? ' is-solved' : '');
+        dot.title = lvl.name;
+        dot.addEventListener('click', function () {
+          if (solvedLevels[i] || i <= currentLevelIdx) {
+            currentLevelIdx = i;
+            renderLevel();
+            sfxClick();
+          }
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function renderInventory() {
+      invSlotsContainer.innerHTML = '';
+      if (inventory.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'adv-inventory-empty';
+        empty.textContent = DATA.inventoryEmpty;
+        invSlotsContainer.appendChild(empty);
+        return;
+      }
+      inventory.forEach(function (item) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'adv-inv-item' + (activeItem && activeItem.id === item.id ? ' is-selected' : '');
+        btn.innerHTML = getIcon(item.icon) + '<span>' + item.name + '</span>';
+        btn.addEventListener('click', function () {
+          activeItem = (activeItem && activeItem.id === item.id) ? null : item;
+          renderInventory();
+          sfxClick();
+        });
+        invSlotsContainer.appendChild(btn);
+      });
+    }
+
+    function renderHotspots() {
+      hotspotsLayer.innerHTML = '';
+      var cur = DATA.levels[currentLevelIdx];
+      cur.hotspots.forEach(function (spot) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'adv-hotspot' + (spot.type === 'target' ? ' is-target' : '') + (spot.isSolved ? ' is-solved' : '');
+        b.style.left = spot.x + '%';
+        b.style.top = spot.y + '%';
+        b.setAttribute('aria-label', spot.label);
+        b.innerHTML = '<div class="adv-hotspot-disc">' + getIcon(spot.icon) + '</div>' +
+                      '<span class="adv-hotspot-label">' + spot.label + '</span>';
+        b.addEventListener('click', function () { onHotspotClick(spot); });
+        hotspotsLayer.appendChild(b);
+      });
+    }
+
+    function renderLevel() {
+      scenes.forEach(function (s, i) {
+        s.classList.toggle('is-active', i === currentLevelIdx);
+      });
+      renderHUD();
+      renderHotspots();
+      renderInventory();
+    }
+
+    function openDialog(iconName, title, tag, text, btnLabel, onAction) {
+      dialogIcon.innerHTML = getIcon(iconName);
+      dialogSpotTitle.textContent = title;
+      dialogStationTag.textContent = tag;
+      dialogText.textContent = text;
+      if (btnLabel && onAction) {
+        dialogActionBtn.textContent = btnLabel;
+        dialogActionBtn.hidden = false;
+        dialogActionBtn.onclick = function () {
+          onAction();
+          closeDialog();
+        };
+      } else {
+        dialogActionBtn.hidden = true;
+        dialogActionBtn.onclick = null;
+      }
+      dialogPanel.classList.add('is-open');
+      dialogPanel.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDialog() {
+      dialogPanel.classList.remove('is-open');
+      dialogPanel.setAttribute('aria-hidden', 'true');
+    }
+
+    dialogCloseBtn.addEventListener('click', closeDialog);
+    dialogPanel.addEventListener('click', function (e) {
+      if (e.target === dialogPanel) closeDialog();
+    });
+
+    function onHotspotClick(spot) {
+      sfxClick();
+      var curTag = DATA.levels[currentLevelIdx].tag;
+
+      // Flavor spot
+      if (spot.type === 'flavor') {
+        openDialog(spot.icon, spot.label, curTag, spot.text, null, null);
+        return;
+      }
+
+      // Pickup spot
+      if (spot.type === 'pickup') {
+        if (spot.isSolved) {
+          openDialog(spot.icon, spot.label, curTag, spot.solvedText || spot.text, null, null);
           return;
         }
-        closeDialog();
-        current++;
-        render();
-      });
+        openDialog(spot.icon, spot.label, curTag, spot.text, spot.btn, function () {
+          var itemDef = DATA.levels[currentLevelIdx].items.find(function (it) { return it.id === spot.givesItem; });
+          if (itemDef && !inventory.some(function (it) { return it.id === itemDef.id; })) {
+            inventory.push(itemDef);
+            activeItem = itemDef;
+          }
+          spot.isSolved = true;
+          sfxPickup();
+          renderInventory();
+          renderHotspots();
+        });
+        return;
+      }
 
-      closeBtn.addEventListener('click', closeDialog);
-      dialog.addEventListener('click', function (e) {
-        if (e.target === dialog) { closeDialog(); }
-      });
-      dialogText.addEventListener('click', stopType);
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { closeDialog(); }
-      });
+      // Target spot requiring item
+      if (spot.type === 'target') {
+        if (spot.isSolved) {
+          openDialog(spot.icon, spot.label, curTag, spot.solvedText || spot.text, null, null);
+          return;
+        }
+        var hasActiveReq = activeItem && activeItem.id === spot.requiresItem;
+        if (!hasActiveReq) {
+          var missingText = DATA.lang === 'de'
+            ? 'Hier fehlt noch der passende Gegenstand aus dem Inventar zur Ausführung!'
+            : 'You need to select the matching item from your inventory first!';
+          openDialog(spot.icon, spot.label, curTag, spot.text + '\n\n💡 ' + missingText, null, null);
+          return;
+        }
+        // Solved with item
+        openDialog(spot.icon, spot.label, curTag, spot.solvedText, spot.btn, function () {
+          spot.isSolved = true;
+          solvedLevels[currentLevelIdx] = true;
+          sfxLevelUp();
+          if (currentLevelIdx < DATA.levels.length - 1) {
+            currentLevelIdx++;
+            renderLevel();
+          } else {
+            showVictory();
+          }
+        });
+        return;
+      }
 
-      render();
-    })();
-  </script>
-</div>
+      // Final Quest spot (Station 4)
+      if (spot.type === 'quest') {
+        openDialog(spot.icon, spot.label, curTag, spot.text, spot.btn, function () {
+          solvedLevels[currentLevelIdx] = true;
+          sfxLevelUp();
+          showVictory();
+        });
+      }
+    }
+
+    function showVictory() {
+      victoryLayer.hidden = false;
+      sfxLevelUp();
+    }
+
+    restartBtn.addEventListener('click', function () {
+      currentLevelIdx = 0;
+      solvedLevels = [false, false, false, false];
+      inventory = [];
+      activeItem = null;
+      DATA.levels.forEach(function (lvl) {
+        lvl.hotspots.forEach(function (h) { h.isSolved = false; });
+      });
+      victoryLayer.hidden = true;
+      renderLevel();
+      sfxPickup();
+    });
+
+    // Start Game
+    renderLevel();
+  })();
+</script>
